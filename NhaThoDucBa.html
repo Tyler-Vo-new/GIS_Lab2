@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>ArcGIS JS API - GeoJSON Example</title>
+
+    <!-- ArcGIS JS API CSS & JS -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.29/"></script>
+
+    <style>
+        html,
+        body,
+        #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="viewDiv"></div>
+
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/views/SceneView",
+            "esri/layers/GeoJSONLayer",
+            "esri/layers/GraphicsLayer",
+            "esri/Graphic"
+        ], function (Map, MapView, SceneView, GeoJSONLayer, GraphicsLayer, Graphic) {
+
+            // Tạo một GeoJSONLayer từ file hoặc URL
+            const geojsonLayer = new GeoJSONLayer({
+                url: "./data/nhathoducba.geojson",   // đường dẫn tới file GeoJSON của bạn
+                popupTemplate: {
+                    title: "{Name}",
+                    content: "{Description}"
+                },
+                renderer: {
+                    type: "simple",
+                    symbol: {
+                        type: "simple-fill",
+                        color: [0, 0, 255, 0.3],
+                        outline: { color: "white", width: 1 }
+                    }
+                }
+            });
+            const map = new Map({
+                basemap: "topo-vector",
+                ground: "world-elevation",
+                layers: [geojsonLayer]
+            });
+
+            const view = new SceneView({
+                container: "viewDiv",
+                map: map,
+                camera: {
+                    position: [106.69900154581283, 10.775276832043538, 300],
+                    heading: 0,
+                    tilt: 60
+                }
+            });
+
+
+            view.on("click", function (event) {
+                const point = event.mapPoint;
+                const lonDeg = point.longitude;
+                const latDeg = point.latitude;
+
+                // Đổi sang radian
+                const lonRad = lonDeg * Math.PI / 180;
+                const latRad = latDeg * Math.PI / 180;
+
+                console.log("Longitude (deg):", lonDeg, "→ rad:", lonRad);
+                console.log("Latitude (deg):", latDeg, "→ rad:", latRad);
+
+                view.popup.open({
+                    title: "Tọa độ (radian)",
+                    content: `Longitude: ${lonDeg} rad<br>
+                Latitude: ${latDeg} rad`,
+                    location: point
+                });
+            });
+
+            const graphicsLayer = new GraphicsLayer();
+            map.add(graphicsLayer);
+
+            // Polygon 3D: bức tường
+            const wallPolygon = {
+                type: "polygon",
+                rings: [
+                    [106.69886007437611, 10.77964233843145, 0],    // góc dưới trái
+                    [106.69909093191316, 10.779427922622276, 0],    // góc dưới phải
+                    [106.69909093191316, 10.779427922622276, 30],   // góc trên phải (cao 30m)
+                    [106.69886007437611, 10.77964233843145, 30],   // góc trên trái (cao 30m)
+                    [106.69886007437611, 10.77964233843145, 0]     // đóng polygon
+                ]
+            };
+
+            const wallGraphic = new Graphic({
+                geometry: wallPolygon,
+                symbol: {
+                    type: "simple-fill",
+                    color: [200, 100, 50, 0.7],
+                    outline: { color: [255, 255, 255], width: 1 }
+                },
+                attributes: { Name: "Bức tường" },
+                popupTemplate: { title: "{Name}" }
+            });
+
+            graphicsLayer.add(wallGraphic);
+        });
+    </script>
+</body>
+
+</html>
