@@ -1,28 +1,42 @@
-import findNewPoint from './utils';
-import Graphic from "https://js.arcgis.com/4.29/esri/Graphic.js";
+const createUpWindow = (wallPolygon, leftPad, width, height, baseZ = 0, offset = 0.2) => {
+    // Hướng của tường
+    const orientation = getPolygonOrientation(wallPolygon);
 
+    // Pháp tuyến (vuông góc với tường)
+    const normalOrientation = orientation + 90;
 
-const createUpWindow = (basePoint, width, height, orientation = 90) => {
-    // Tạo cửa sổ đứng của nhà thờ
-    const bottomLeft = basePoint;
-    const bottomRight = findNewPoint(basePoint, orientation, width)
-    const topRight = findNewPoint(bottomRight, 0, height);
-    const topLeft = findNewPoint(bottomLeft, 0, height);
+    // Điểm dưới bên trái của tường
+    const wallBottomLeft = wallPolygon.rings[0][0];
 
-    returnn[bottomLeft, bottomRight, topRight, topLeft, bottomLeft];
-}
+    // Dịch theo hướng tường để lấy vị trí cửa sổ
+    const bottomLeft2D = findNewPoint(wallBottomLeft, orientation, leftPad);
+    const bottomRight2D = findNewPoint(bottomLeft2D, orientation, width);
 
+    // Dịch thêm theo pháp tuyến để cửa sổ lòi ra
+    const bottomLeftOffset = findNewPoint(bottomLeft2D, normalOrientation, offset);
+    const bottomRightOffset = findNewPoint(bottomRight2D, normalOrientation, offset);
 
-define([], function () {
-    function showUpWindow(graphicsLayer, basePoint, width, height, orientation = 90){
-        // Hiển thị cửa sổ
-        const windowPolygon = createUpWindow(basePoint, width, height, orientation);
+    // Thêm Z cho các điểm dưới
+    const bottomLeft3D = [bottomLeftOffset[0], bottomLeftOffset[1], baseZ];
+    const bottomRight3D = [bottomRightOffset[0], bottomRightOffset[1], baseZ];
+
+    // Các điểm trên: cùng lon/lat nhưng cao hơn baseZ + height
+    const topRight3D = [bottomRightOffset[0], bottomRightOffset[1], baseZ + height];
+    const topLeft3D = [bottomLeftOffset[0], bottomLeftOffset[1], baseZ + height];
+
+    return [bottomLeft3D, bottomRight3D, topRight3D, topLeft3D, bottomLeft3D];
+};
+
+require([
+    "esri/Graphic"
+], function (Graphic) {
+
+    function showUpWindow(graphicsLayer, wallPolygon, leftPad, width, height, baseZ = 0, offset = 0.2) {
+        // Thể hiện cửa sổ đứng trong map
+        const windowPolygon = createUpWindow(wallPolygon, leftPad, width, height, baseZ, offset);
 
         const windowGraphic = new Graphic({
-            geometry: {
-                type: "polygon",
-                rings: windowPolygon
-            },
+            geometry: { type: "polygon", rings: windowPolygon },
             symbol: {
                 type: "simple-fill",
                 color: [0, 0, 255, 0.5],
@@ -31,7 +45,10 @@ define([], function () {
             attributes: { Name: "Window" },
             popupTemplate: { title: "{Name}" }
         });
+
         graphicsLayer.add(windowGraphic);
     }
-    return showUpWindow;
+
+    // ✅ Expose globally so main.js can call it
+    window.showUpWindow = showUpWindow;
 });
