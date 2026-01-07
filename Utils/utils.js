@@ -31,14 +31,11 @@ function getGraphicById(graphicsLayer, id) {
     return null; // nếu không tìm thấy
 }
 
-
-
-
 const getPolygonOrientation = (wallPolygon) => {
     // Tìm hướng của Polygon
-    console.log(wallPolygon.rings);
-    const bottomLeft = wallPolygon.rings[0][0];
-    const bottomRight = wallPolygon.rings[0][1];
+    console.log(wallPolygon);
+    const bottomLeft = wallPolygon[0];
+    const bottomRight = wallPolygon[1];
 
     const dx = bottomRight[0] - bottomLeft[0]; // lon2 - lon1
     const dy = bottomRight[1] - bottomLeft[1]; // lat2 - lat1
@@ -53,4 +50,36 @@ const getPolygonOrientation = (wallPolygon) => {
         angleDeg += 360;
 
     return angleDeg;
+}
+
+
+// dịch điểm theo bearing + distance (m)
+function offsetPoint(coord, bearing, distance) {
+    const R = 6378137;
+    const δ = distance / R;
+    const θ = toRad(bearing);
+
+    const φ1 = toRad(coord[1]);
+    const λ1 = toRad(coord[0]);
+
+    const φ2 = Math.asin(
+        Math.sin(φ1) * Math.cos(δ) +
+        Math.cos(φ1) * Math.sin(δ) * Math.cos(θ)
+    );
+
+    const λ2 = λ1 + Math.atan2(
+        Math.sin(θ) * Math.sin(δ) * Math.cos(φ1),
+        Math.cos(δ) - Math.sin(φ1) * Math.sin(φ2)
+    );
+
+    return [toDeg(λ2), toDeg(φ2)];
+}
+
+// hướng của LineString
+function getLineBearing(p0, p1) {
+    const dx = p1[0] - p0[0];
+    const dy = p1[1] - p0[1];
+    let angle = Math.atan2(dx, dy) * 180 / Math.PI;
+    if (angle < 0) angle += 360;
+    return angle;
 }
