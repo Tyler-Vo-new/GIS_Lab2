@@ -33,7 +33,7 @@ function getGraphicById(graphicsLayer, id) {
 
 const getPolygonOrientation = (wallPolygon) => {
     // Tìm hướng của Polygon
-    console.log(wallPolygon);
+    // console.log(wallPolygon);
     const bottomLeft = wallPolygon[0];
     const bottomRight = wallPolygon[1];
 
@@ -83,3 +83,21 @@ function getLineBearing(p0, p1) {
     if (angle < 0) angle += 360;
     return angle;
 }
+
+// Hàm tính khoảng cách giữa hai Point
+function distanceBetweenCoords(coord1, coord2) {
+    const R = 6378137; // bán kính Trái Đất (m)
+    const φ1 = toRad(coord1[1]);
+    const φ2 = toRad(coord2[1]);
+    const Δφ = toRad(coord2[1] - coord1[1]);
+    const Δλ = toRad(coord2[0] - coord1[0]);
+
+    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return R * c; // khoảng cách (m)
+}
+

@@ -123,7 +123,7 @@ require([
                 symbolLayers: [{
                     type: "fill",
                     material: {
-                        color: "#fe9f33ff"
+                        color: "#feb328ff"
                     },
                     edges: {
                         type: "solid",
@@ -160,59 +160,123 @@ require([
                 graphicsLayer.add(wallGraphic);
             });
 
+            // Đặt ngói cho tầng trệt trái
+            const datNgoiTretTrai = (wall_id) => {
+                const wall = getGraphicById(graphicsLayer, wall_id);
+                const tretTrai_orientation = getLineBearing(wall.attributes.line[0], wall.attributes.line[1]);
+                const tretTrai_coords = findNewPoint(wall.attributes.line[0], tretTrai_orientation - 90, 0.5)
+                const tretTrai_point = new Point({
+                    x: tretTrai_coords[0],
+                    y: tretTrai_coords[1],
+                    z: wall.attributes.baseZ + wall.attributes.height + 0.28
+                })
+                Mesh.createFromGLTF(tretTrai_point, "./3D_Models/maiNha/TangTretTrai.glb")
+                    .then(function (geometry) {
+                        geometry.scale(1, { origin: geometry.extent.center });
+                        geometry.rotate(20, 0, tretTrai_orientation + 3.5);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: {
+                                type: "mesh-3d",
+                                symbolLayers: [{
+                                    type: "fill",
+                                    size: 10000
+                                }]
+                            }
+                        });
+                        graphicsLayer.add(graphic)
+                    })
+                    .catch(console.error);
+            }
 
-            const wall1 = getGraphicById(graphicsLayer, "wall-001");
+            // Đặt ngói cho tầng trệt phải
+            const datNgoiTretPhai = (wall_id) => {
+                const wall = getGraphicById(graphicsLayer, wall_id);
+                const tretPhai_orientation = getLineBearing(wall.attributes.line[0], wall.attributes.line[1]);
+                const tretPhai_coords = findNewPoint(wall.attributes.line[0], tretPhai_orientation + 90, 0.5)
+                const tretPhai_point = new Point({
+                    x: tretPhai_coords[0],
+                    y: tretPhai_coords[1],
+                    z: wall.attributes.baseZ + wall.attributes.height + 0.75
+                })
+                Mesh.createFromGLTF(tretPhai_point, "./3D_Models/maiNha/TangTretPhai.glb")
+                    .then(function (geometry) {
+                        geometry.scale(1, { origin: geometry.extent.center });
+                        geometry.rotate(-30, 0, tretPhai_orientation + 3.5);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: {
+                                type: "mesh-3d",
+                                symbolLayers: [{
+                                    type: "fill",
+                                    size: 10000
+                                }]
+                            }
+                        });
+                        graphicsLayer.add(graphic)
+                    })
+                    .catch(console.error);
+            }
 
-            console.log(wall1.attributes)
+            // Đặt ngói cho tầng trệt trái
+            datNgoiTretTrai("wall-014")
+            // Đặt ngói cho tầng một trái
+            datNgoiTretTrai("wall-015")
+            
+            // Đặt ngói cho tầng trệt phải
+            datNgoiTretPhai("wall-011")
+            // Đặt ngói cho tầng một phải
+            datNgoiTretPhai("wall-012")
+            
 
-            const wall1_polygon = wall1.attributes.polygon;
-            const wall1_line = wall1.attributes.line;
-            console.log(getPolygonOrientation(wall1_polygon));
-            console.log(getLineBearing(wall1_line[0], wall1_line[1]))
+            // Đặt tượng Đức mẹ bằng Mesh
+            const mariaStatue = new Point({
+                x: 106.69933635984347,
+                y: 10.779468952965884,
+                z: 10.2,
+            })
 
-            graphicsLayer.add(createWindowMesh(
-                wall1_polygon,
-                2,       // m
-                5,         // m
-                10,        // m
-                6,         // m
-                0,  // độ dày cửa sổ (m)
-                0
-                // + lồi / - lõm
-            ));
+            const mariaStatue_orientation = getPolygonOrientation(getGraphicById(graphicsLayer, "wall-005").attributes.polygon);
 
-            const wall = getGraphicById(graphicsLayer, "wall-013");
+            Mesh.createFromGLTF(mariaStatue, "./3D_Models/maria_immaculata.glb")
+                .then(function (geometry) {
+                    geometry.scale(2, { origin: mariaStatue })
+                    geometry.rotate(0, 0, mariaStatue_orientation);
+                    const graphic = new Graphic({
+                        geometry,
+                        symbol: {
+                            type: "mesh-3d",
+                            symbolLayers: [{
+                                type: "fill",
+                                size: 10000
+                            }]
+                        }
+                    });
+                    graphicsLayer.add(graphic)
+                })
+                .catch(console.error);
+            
+            // Tìm kiếm các điểm 
+            const wall = getGraphicById(graphicsLayer, "wall-050");
             const wall_line = wall.attributes.line
-            const o = getPolygonOrientation(wall.attributes.polygon) + 90;
-            console.log(findNewPoint(wall_line[0], o, 35))
-            // showUpWindow(graphicsLayer, wall1_polygon, 2, 2, 5, 20);
+            const o = getPolygonOrientation(wall.attributes.polygon) + 45;
+            console.log(findNewPoint(
+                wall.attributes.line[1]
+                , o, 4));
+            
+            // const w30 = getGraphicById(graphicsLayer, 'wall-028');
+            // const w31 = getGraphicById(graphicsLayer, 'wall-029');
+            // const d = distanceBetweenCoords(w30.attributes.line[1], w31.attributes.line[1]);
+            // const center = findNewPoint(
+            //     w30.attributes.line[1],
+            //     getLineBearing(w30.attributes.line[1], w31.attributes.line[1]),
+            //     d/2
+            // )
+            // var tmp = w30.attributes.line[1]
+            // for (i = 0; i < 5; i++) {
+            //     var point = findNewPoint(center, getLineBearing(center, tmp) - 36, d / 2)
+            //     console.log(point);
+            //     tmp = point;
+            // }
         });
-
-
-    // // Đặt tượng Đức mẹ bằng Mesh
-    // const mariaStatue = new Point({
-    //     x: 106.69933635984347,
-    //     y: 10.779468952965884,
-    //     z: 10.2,
-    // })
-
-    // const mariaStatue_orientation = getPolygonOrientation(wall1_polygon)
-
-    // Mesh.createFromGLTF(mariaStatue, "./3D_Models/maria_immaculata.glb")
-    //     .then(function (geometry) {
-    //         geometry.scale(1, { origin: mariaStatue })
-    //         geometry.rotate(0, 0, mariaStatue_orientation+270);
-    //         const graphic = new Graphic({
-    //             geometry,
-    //             symbol: {
-    //                 type: "mesh-3d",
-    //                 symbolLayers: [{
-    //                     type: "fill",
-    //                     size: 10000
-    //                 }]
-    //             }
-    //         });
-    //         graphicsLayer.add(graphic)
-    //     })
-    //     .catch(console.error);
 });
