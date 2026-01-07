@@ -25,6 +25,7 @@ require([
     });
 
 
+
     view.on("click", function (event) {
         const point = event.mapPoint;
         const lonDeg = point.longitude;
@@ -33,9 +34,6 @@ require([
         // Đổi sang radian
         const lonRad = lonDeg * Math.PI / 180;
         const latRad = latDeg * Math.PI / 180;
-
-        console.log("Longitude (deg):", lonDeg, "→ rad:", lonRad);
-        console.log("Latitude (deg):", latDeg, "→ rad:", latRad);
 
         view.popup.open({
             title: "Tọa độ (radian)",
@@ -155,37 +153,69 @@ require([
     fetch("./tuong.geojson")
         .then(res => res.json())
         .then(data => {
+            // VẼ TƯỜNG TRƯỚC
             data.features.forEach(feature => {
                 const wallGraphic = createWallGraphic(feature);
                 graphicsLayer.add(wallGraphic);
             });
 
-
+            // SAU ĐÓ VẼ CỬA (để cửa render trên walls)
             const wall1 = getGraphicById(graphicsLayer, "wall-001");
-
-            console.log(wall1.attributes)
+            const wall2 = getGraphicById(graphicsLayer, "wall-002");
+            const wall3 = getGraphicById(graphicsLayer, "wall-003");
+            const wall4 = getGraphicById(graphicsLayer, "wall-004");
+            const wall5 = getGraphicById(graphicsLayer, "wall-005");
+            const wall6 = getGraphicById(graphicsLayer, "wall-006");
+            const wall7 = getGraphicById(graphicsLayer, "wall-007");
+            const wall8 = getGraphicById(graphicsLayer, "wall-008");
+            const wall9 = getGraphicById(graphicsLayer, "wall-009");
 
             const wall1_polygon = wall1.attributes.polygon;
             const wall1_line = wall1.attributes.line;
-            console.log(getPolygonOrientation(wall1_polygon));
-            console.log(getLineBearing(wall1_line[0], wall1_line[1]))
 
-            graphicsLayer.add(createWindowMesh(
-                wall1_polygon,
-                2,       // m
-                5,         // m
-                10,        // m
-                6,         // m
-                0,  // độ dày cửa sổ (m)
-                0
-                // + lồi / - lõm
-            ));
+            // === THÊM CỬA SAU KHI WALLS ĐÃ ĐƯỢC VẼ ===
+            
+            // 3 CỬA CHÍNH (mặt trước)
+            addMainDoors(graphicsLayer, {
+                wall001: wall1.attributes.polygon,
+                wall005: wall5.attributes.polygon,
+                wall006: wall6.attributes.polygon
+            });
 
-            const wall = getGraphicById(graphicsLayer, "wall-013");
-            const wall_line = wall.attributes.line
-            const o = getPolygonOrientation(wall.attributes.polygon) + 90;
-            console.log(findNewPoint(wall_line[0], o, 35))
-            // showUpWindow(graphicsLayer, wall1_polygon, 2, 2, 5, 20);
+            // 2 CỬA BÊN HÔNG
+            if (wall2 && wall7) {
+                addSideDoors(graphicsLayer, {
+                    wall002: wall2.attributes.polygon,
+                    wall007: wall7.attributes.polygon
+                });
+            }
+
+            // CỬA SỔ CHO 2 THÁP (wall-001 và wall-006)
+            addTowerWindows(graphicsLayer, {
+                wall001: wall1.attributes.polygon,
+                wall006: wall6.attributes.polygon
+            });
+
+            // CỬA SỔ CHO 2 THÁP PHÍA SAU (wall-003 và wall-008) - ngược hướng 180 độ
+            if (wall3 && wall8) {
+                addBackTowerWindows(graphicsLayer, {
+                    wall003: wall3.attributes.polygon,
+                    wall008: wall8.attributes.polygon
+                });
+            }
+
+            // CỬA SỔ CHO 2 TƯỜNG BÊN HÔNG (wall-002, wall-007, wall-004, wall-009)
+            addSideWindows(graphicsLayer, {
+                wall002: wall2 ? wall2.attributes.polygon : null,
+                wall007: wall7 ? wall7.attributes.polygon : null,
+                wall004: wall4 ? wall4.attributes.polygon : null,
+                wall009: wall9 ? wall9.attributes.polygon : null
+            });
+
+            // CỬA SỔ CHO TƯỜNG GIỮA (wall-005) - bộ 3 cửa
+            addCenterWindows(graphicsLayer, {
+                wall005: wall5.attributes.polygon
+            });
         });
 
 
