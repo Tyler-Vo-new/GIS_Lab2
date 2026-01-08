@@ -101,3 +101,16 @@ function distanceBetweenCoords(coord1, coord2) {
     return R * c; // khoảng cách (m)
 }
 
+function divideWallLine(feature, n) {
+    const [[x1, y1], [x2, y2]] = feature.geometry.coordinates;
+
+    const dx = (x2 - x1) / n;
+    const dy = (y2 - y1) / n;
+
+    const points = [];
+    for (let i = 0; i <= n; i++) {
+        points.push([x1 + dx * i, y1 + dy * i]);
+    }
+
+    return points; // mảng gồm n+1 điểm chia đều trên cạnh tường
+}

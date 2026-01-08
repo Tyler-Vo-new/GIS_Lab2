@@ -187,8 +187,118 @@ require([
                 })
                 .catch(console.error);
             
+            // Ốp gạch vào chân tháp
+            opGachChanThap(graphicsLayer, getGraphicById(graphicsLayer, "wall-001"));
+            opGachChanThap1(graphicsLayer, getGraphicById(graphicsLayer, "wall-002"));
+            opGachChanThap1(graphicsLayer, getGraphicById(graphicsLayer, "wall-021"));
+            opGachChanThap(graphicsLayer, getGraphicById(graphicsLayer, "wall-006"));
+            opGachChanThap(graphicsLayer, getGraphicById(graphicsLayer, "wall-007"));
+            opGachChanThap(graphicsLayer, getGraphicById(graphicsLayer, "wall-020"));
+            opGachChanThap2(graphicsLayer, getGraphicById(graphicsLayer, "wall-019"));
+            opGachChanThap3(graphicsLayer, getGraphicById(graphicsLayer, "wall-023"));
+            opGachChanThap3(graphicsLayer, getGraphicById(graphicsLayer, "wall-018"));
+            opGachChanThap2(graphicsLayer, getGraphicById(graphicsLayer, "wall-022"));
+            opGachChanThap2(graphicsLayer, getGraphicById(graphicsLayer, "wall-008"));
+            opGachChanThap3(graphicsLayer, getGraphicById(graphicsLayer, "wall-003"));
+            opGachDinhThap(graphicsLayer, getGraphicById(graphicsLayer, "wall-059"));
+            opGachDinhThap1(graphicsLayer, getGraphicById(graphicsLayer, "wall-060"));
+            opGachDinhThap2(graphicsLayer, getGraphicById(graphicsLayer, "wall-061"));
+            opGachDinhThap2(graphicsLayer, getGraphicById(graphicsLayer, "wall-062"));
+            opGachDinhThap(graphicsLayer, getGraphicById(graphicsLayer, "wall-063"));
+            opGachDinhThap1(graphicsLayer, getGraphicById(graphicsLayer, "wall-064"));
+            opGachDinhThap(graphicsLayer, getGraphicById(graphicsLayer, "wall-065"));
+            opGachDinhThap1(graphicsLayer, getGraphicById(graphicsLayer, "wall-066"));
+            var wall2 = getGraphicById(graphicsLayer, "wall-002");
+            var trap1 = createTrapezoidBrickOutwardSlope2(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) + 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+
+            wall2 = getGraphicById(graphicsLayer, "wall-001");
+            trap1 = createTrapezoidBrickOutwardSlope(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) - 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+
+            wall2 = getGraphicById(graphicsLayer, "wall-003");
+            trap1 = createTrapezoidBrickOutwardSlope2(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) + 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+
+            wall2 = getGraphicById(graphicsLayer, "wall-004");
+            trap1 = createTrapezoidBrickOutwardSlope2(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) + 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+            
+            wall2 = getGraphicById(graphicsLayer, "wall-006");
+            trap1 = createTrapezoidBrickOutwardSlope(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) - 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+
+            wall2 = getGraphicById(graphicsLayer, "wall-007");
+            trap1 = createTrapezoidBrickOutwardSlope(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) - 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+
+            wall2 = getGraphicById(graphicsLayer, "wall-008");
+            trap1 = createTrapezoidBrickOutwardSlope(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) - 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+
+            wall2 = getGraphicById(graphicsLayer, "wall-009");
+            trap1 = createTrapezoidBrickOutwardSlope(
+                wall2.attributes.polygon,
+                findNewPoint(wall2.attributes.line[0], getLineBearing(wall2.attributes.line[0], wall2.attributes.line[1]) - 90, 0.5),
+                8,
+                0.2,
+                wall2.attributes.baseZ + 26,
+                0.5,
+                1);
+            graphicsLayer.add(trap1);
+
+            
             // Tìm kiếm các điểm 
-            const wall = getGraphicById(graphicsLayer, "wall-008");
+            const wall = getGraphicById(graphicsLayer, "wall-001");
             const wall_line = wall.attributes.line
             const o = getPolygonOrientation(wall.attributes.polygon) - 90;
             console.log(findNewPoint(
@@ -198,21 +308,20 @@ require([
                 ]
                 , o, 0.5));
             
-            // const w30 = getGraphicById(graphicsLayer, 'wall-028');
-            // const w31 = getGraphicById(graphicsLayer, 'wall-029');
-            // const d = distanceBetweenCoords(w30.attributes.line[1], w31.attributes.line[1]);
-            // const center = findNewPoint(
-            //     w30.attributes.line[1],
-            //     getLineBearing(w30.attributes.line[1], w31.attributes.line[1]),
-            //     d/2
-            // )
-            // var tmp = w30.attributes.line[1]
-            // for (i = 0; i < 5; i++) {
-            //     var point = findNewPoint(center, getLineBearing(center, tmp) - 36, d / 2)
-            //     console.log(point);
-            //     tmp = point;
-            // }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            
         });
+    
+    
 
     
 });
