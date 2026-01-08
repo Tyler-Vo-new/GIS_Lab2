@@ -4,6 +4,102 @@
         {
             "type": "Feature",
             "properties": {
+                "id": "wall-001",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921474573036,
+                        10.779447264138202
+                    ],
+                    [
+                        106.6992656680461,
+                        10.779502571187221
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-002",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921474573036,
+                        10.779447264138202
+                    ],
+                    [
+                        106.69916103232897,
+                        10.779497312696945
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-003",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69916103232897,
+                        10.779497312696945
+                    ],
+                    [
+                        106.69921349720597,
+                        10.779551356448232
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-004",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921349720597,
+                        10.779551356448232
+                    ],
+                    [
+                        106.6992656680461,
+                        10.779502571187221
+                    ]
+                ]
+            }
+        },
+        {  
+            "type": "Feature",
+            "properties": {
                 "id": "wall-005",
                 "buildingId": "b001",
                 "buildingName": "Chính điện",
@@ -21,6 +117,102 @@
                     [
                         106.69931938721504,
                         10.779558056150924 
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-006",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931938721504,
+                        10.779558056150924
+                    ],
+                    [
+                        106.69937034193144,
+                        10.779611928282318
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-007",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69937034193144,
+                        10.779611928282318
+                    ],
+                    [
+                        106.69931670188687,
+                        10.779661976261488
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-008",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931670188687,
+                        10.779661976261488
+                    ],
+                    [
+                        106.69926576435819,
+                        10.779606952871548
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-009",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69926576435819,
+                        10.779606952871548
+                    ],
+                    [
+                        106.69931938721504,
+                        10.779558056150924
                     ]
                 ]
             }
@@ -1199,6 +1391,198 @@
                     [
                         106.69875522188595,
                         10.7799269497061
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-059",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921447876128,
+                        10.779453617892038
+                    ],
+                    [
+                        106.69925920016144,
+                        10.779502308929043
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-060",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921447876128,
+                        10.779453617892038
+                    ],
+                    [
+                        106.69916750168703,
+                        10.779497537160793
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-061",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69916750168703,
+                        10.779497537160793
+                    ],
+                    [
+                        106.69921359315644,
+                        10.77954499798273
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-062",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921359315644,
+                        10.77954499798273
+                    ],
+                    [
+                        106.69925920016144,
+                        10.779502308929043
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-063",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.699319207125,
+                        10.779564412853624
+                    ],
+                    [
+                        106.69936387104262,
+                        10.779611751370162
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-064",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69936387104262,
+                        10.779611751370162
+                    ],
+                    [
+                        106.69931692601043,
+                        10.779655620909901
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-065",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931692601043,
+                        10.779655620909901
+                    ],
+                    [
+                        106.6992722329454,
+                        10.779607197899278
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-066",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6992722329454,
+                        10.779607197899278
+                    ],
+                    [
+                        106.699319207125,
+                        10.779564412853624
                     ]
                 ]
             }
