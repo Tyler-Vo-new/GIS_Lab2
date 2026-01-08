@@ -64,8 +64,14 @@ require([
                 if (feature.properties.id == "wall-013" || feature.properties.id == "wall-010") {
                     wallGraphic = createWallGraphic1(feature);
                     graphicsLayer.add(wallGraphic);
-                } else if (["wall-005", "wall-020", "wall-021"].includes(feature.properties.id)) {
-                    wallGraphic = createWallGraphic2(feature, 3);
+                } else if (["wall-021"].includes(feature.properties.id)) {
+                    wallGraphic = createWallGraphic2(feature, 8.8);
+                    graphicsLayer.add(wallGraphic);
+                } else if (["wall-020"].includes(feature.properties.id)) {
+                    wallGraphic = createWallGraphic2(feature, 8.8);
+                    graphicsLayer.add(wallGraphic);
+                } else if (["wall-005"].includes(feature.properties.id)) {
+                    wallGraphic = createWallGraphic2(feature, 3.75);
                     graphicsLayer.add(wallGraphic);
                 } else if (["wall-026"].includes(feature.properties.id)) {
                     wallGraphic = createWallGraphic2(feature, 2);
@@ -340,9 +346,9 @@ require([
                     });
                 });
                 const center = new Point({
-                    x: sumX / count + 0.000565,
-                    y: sumY / count + 0.000028,
-                    z: walls_NgoiChinh[0].properties.baseZ + walls_NgoiChinh[0].properties.height - 26.68
+                    x: sumX / count + 0.000908,
+                    y: sumY / count + 0.000325,
+                    z: walls_NgoiChinh[0].properties.baseZ + walls_NgoiChinh[0].properties.height - 27.5
                 });
 
                 Mesh.createFromGLTF(center, "./3D_Models/maiNha/NgoiChinh.glb")
@@ -400,15 +406,15 @@ require([
                     });
                 });
                 const center = new Point({
-                    x: sumX / count - 0.00035,
-                    y: sumY / count - 0.00014,
-                    z: walls_SauPhaiDuoi[0].properties.baseZ + walls_SauPhaiDuoi[0].properties.height - 13
+                    x: sumX / count - 0.000038,
+                    y: sumY / count - 0.000565,
+                    z: walls_SauPhaiDuoi[0].properties.baseZ + walls_SauPhaiDuoi[0].properties.height - 17
                 });
 
                 Mesh.createFromGLTF(center, "./3D_Models/maiNha/SauPhaiDuoi.glb")
                     .then(geometry => {
-                        geometry.scale(26, { origin: center });
-                        geometry.rotate(0, 0, 315);
+                        geometry.scale(36, { origin: center });
+                        geometry.rotate(0, 0, 316.5);
                         const graphic = new Graphic({
                             geometry,
                             symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
@@ -439,6 +445,66 @@ require([
                     .then(geometry => {
                         geometry.scale(22.8, { origin: center });
                         geometry.rotate(0, 0, 318);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (SauTamGiacPhai) - Tường: 026 030
+            const walls_SauTamGiacPhai = data.features.filter(f => ["wall-026", "wall-030"].includes(f.properties.id));
+            if (walls_SauTamGiacPhai.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_SauTamGiacPhai.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.000161,
+                    y: sumY / count - 0.0005456,
+                    z: walls_SauTamGiacPhai[0].properties.baseZ + walls_SauTamGiacPhai[0].properties.height - 17.8
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/SauTamGiacPhai.glb")
+                    .then(geometry => {
+                        geometry.scale(29, { origin: center });
+                        geometry.rotate(0, 0, 316);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (maiGiuaThapTrang) - Tường: 005
+            const walls_MaiGiuaThapTrang = data.features.filter(f => ["wall-005"].includes(f.properties.id));
+            if (walls_MaiGiuaThapTrang.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_MaiGiuaThapTrang.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count - 0.000212,
+                    y: sumY / count + 0.0001602,
+                    z: walls_MaiGiuaThapTrang[0].properties.baseZ + walls_MaiGiuaThapTrang[0].properties.height - 24
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/maiGiuaThapTrang.glb")
+                    .then(geometry => {
+                        geometry.scale(28, { origin: center });
+                        geometry.rotate(0, 0, 316.6);
                         const graphic = new Graphic({
                             geometry,
                             symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
