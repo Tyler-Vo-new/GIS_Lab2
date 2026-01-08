@@ -48,116 +48,25 @@ require([
     const graphicsLayer = new GraphicsLayer();
     map.add(graphicsLayer);
 
-    function createWallPolygonFromLine(feature) {
-        const { id, baseZ, height, material } = feature.properties;
-        const [p0, p1] = feature.geometry.coordinates;
-
-        const bearing = getLineBearing(p0, p1);
-
-        const p1L = offsetPoint(p0, bearing, height);
-        const p1R = offsetPoint(p1, bearing, height);
-
-        return [p0, p1, p1R, p1L, p0]; // CCW
-    }
-
-    function computeWallNormal(p0, p1) {
-        const dx = p1[0] - p0[0];
-        const dy = p1[1] - p0[1];
-
-        // pháp tuyến nằm ngang
-        return [-dy, dx, 0];
-    }
-    
-    function createWallGraphic(feature) {
-
-        const { id, baseZ, height, material } = feature.properties;
-        const [[x1, y1], [x2, y2]] = feature.geometry.coordinates;
-
-        // Vector pháp tuyến (vuông góc với tường)
-        const dx = x2 - x1;
-        const dy = y2 - y1;
-        const len = Math.sqrt(dx * dx + dy * dy);
-
-        // pháp tuyến nằm ngang
-        const normal = computeWallNormal([x1, y1], [x2, y2]);
-
-        const mesh = new Mesh({
-            spatialReference: { wkid: 4326 },
-            vertexAttributes: {
-
-                // 🔥 CCW ORDER (QUAN TRỌNG)
-                position: [
-                    x1, y1, baseZ,
-                    x1, y1, baseZ + height,
-                    x2, y2, baseZ + height,
-                    x2, y2, baseZ
-                ],
-
-                normal: [
-                    ...normal,
-                    ...normal,
-                    ...normal,
-                    ...normal
-                ],
-
-                uv: [
-                    0, 0,
-                    1, 0,
-                    1, 1,
-                    0, 1
-                ]
-            },
-
-            components: [{
-                faces: [
-                    0, 1, 2,
-                    0, 2, 3
-                ]
-            }]
-        });
-
-        return new Graphic({
-            geometry: mesh,
-            symbol: {
-                type: "mesh-3d",
-                symbolLayers: [{
-                    type: "fill",
-                    material: {
-                        color: "#feb328ff"
-                    },
-                    edges: {
-                        type: "solid",
-                        color: "#fafafa",
-                        size: 0.2
-                    }
-                }]
-            },
-            attributes: {
-                id,
-                baseZ,
-                height,
-                material,
-                line: feature.geometry.coordinates,
-                polygon: createWallPolygonFromLine(feature)
-            },
-            popupTemplate: {
-                title: "Thông tin tường",
-                content: `
-                <b>ID:</b> {id}<br>
-                <b>Chiều cao:</b> {height} m<br>
-                <b>Base Z:</b> {baseZ}<br>
-                <b>Vật liệu:</b> {material}
-            `
-            }
-        });
-    }
-
     fetch("./tuong.geojson")
         .then(res => res.json())
         .then(data => {
             data.features.forEach(feature => {
-                const wallGraphic = createWallGraphic(feature);
-                graphicsLayer.add(wallGraphic);
+                var wallGraphic = null;
+                if (feature.properties.id == "wall-013" || feature.properties.id == "wall-010") {
+                    wallGraphic = createWallGraphic1(feature);
+                    graphicsLayer.add(wallGraphic);
+                } else if (["wall-005", "wall-020", "wall-021"].includes(feature.properties.id)) {
+                    wallGraphic = createWallGraphic2(feature, 3);
+                    graphicsLayer.add(wallGraphic);
+                } else if (["wall-026", "wall-027"].includes(feature.properties.id)) {
+                    wallGraphic = createWallGraphic2(feature, 2);
+                    graphicsLayer.add(wallGraphic);
+                }
+                else {
+                    wallGraphic = createWallGraphic(feature);
+                    graphicsLayer.add(wallGraphic);
+                }
             });
 
             // Đặt ngói cho tầng trệt trái
@@ -168,12 +77,12 @@ require([
                 const tretTrai_point = new Point({
                     x: tretTrai_coords[0],
                     y: tretTrai_coords[1],
-                    z: wall.attributes.baseZ + wall.attributes.height + 0.28
+                    z: wall.attributes.baseZ + wall.attributes.height + 0.2
                 })
                 Mesh.createFromGLTF(tretTrai_point, "./3D_Models/maiNha/TangTretTrai.glb")
                     .then(function (geometry) {
                         geometry.scale(1, { origin: geometry.extent.center });
-                        geometry.rotate(20, 0, tretTrai_orientation + 3.5);
+                        geometry.rotate(18, 0, tretTrai_orientation + 3.8);
                         const graphic = new Graphic({
                             geometry,
                             symbol: {
@@ -197,12 +106,12 @@ require([
                 const tretPhai_point = new Point({
                     x: tretPhai_coords[0],
                     y: tretPhai_coords[1],
-                    z: wall.attributes.baseZ + wall.attributes.height + 0.75
+                    z: wall.attributes.baseZ + wall.attributes.height + 0.73
                 })
                 Mesh.createFromGLTF(tretPhai_point, "./3D_Models/maiNha/TangTretPhai.glb")
                     .then(function (geometry) {
                         geometry.scale(1, { origin: geometry.extent.center });
-                        geometry.rotate(-30, 0, tretPhai_orientation + 3.5);
+                        geometry.rotate(-28, 0, tretPhai_orientation + 3.8);
                         const graphic = new Graphic({
                             geometry,
                             symbol: {
