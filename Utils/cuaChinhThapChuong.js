@@ -4,8 +4,18 @@ require([
 ], function (Graphic, Mesh) {
 
     /**
-     * Tạo một BOX mesh đơn giản (hình hộp 3D)
-     * Tương tự createWindowMesh nhưng đơn giản hóa
+     * Tạo hình hộp 3D (BOX) cho các thành phần cửa
+     * @param {Array} p0 - Điểm đầu [lon, lat]
+     * @param {Array} p1 - Điểm cuối [lon, lat]
+     * @param {number} z0 - Độ cao đáy
+     * @param {number} z1 - Độ cao đỉnh
+     * @param {number} depth - Độ sâu (nhô ra/vào)
+     * @param {number} normalOrientation - Hướng pháp tuyến
+     * @param {Array} color - Màu [R,G,B]
+     * @param {Array} edgeColor - Màu viền
+     * @param {number} edgeSize - Độ dày viền
+     * @param {string} doorId - ID cửa
+     * @returns {Graphic} Graphic hình hộp
      */
     function createBox(p0, p1, z0, z1, depth, normalOrientation, color, edgeColor = "white", edgeSize = 0.5, doorId = null) {
         const front0 = p0;
@@ -14,12 +24,12 @@ require([
         const back1 = findNewPoint(front1, normalOrientation, depth);
 
         const positions = [
-            // FRONT
+            // Mặt trước
             front0[0], front0[1], z0,
             front1[0], front1[1], z0,
             front1[0], front1[1], z1,
             front0[0], front0[1], z1,
-            // BACK
+            // Mặt sau
             back0[0], back0[1], z0,
             back1[0], back1[1], z0,
             back1[0], back1[1], z1,
@@ -27,12 +37,12 @@ require([
         ];
 
         const faces = [
-            0, 1, 2, 0, 2, 3,  // front
-            5, 4, 7, 5, 7, 6,  // back
-            4, 0, 3, 4, 3, 7,  // left
-            1, 5, 6, 1, 6, 2,  // right
-            4, 5, 1, 4, 1, 0,  // bottom
-            3, 2, 6, 3, 6, 7   // top
+            0, 1, 2, 0, 2, 3,  // mặt trước
+            5, 4, 7, 5, 7, 6,  // mặt sau
+            4, 0, 3, 4, 3, 7,  // mặt trái
+            1, 5, 6, 1, 6, 2,  // mặt phải
+            4, 5, 1, 4, 1, 0,  // mặt dưới
+            3, 2, 6, 3, 6, 7   // mặt trên
         ];
 
         const mesh = new Mesh({
@@ -63,25 +73,29 @@ require([
     }
 
     /**
-     * Tạo polygon mesh phẳng với 2 mặt (double-sided)
+     * Tạo mặt phẳng đa giác (polygon mesh) hiển thị 2 mặt
+     * Dùng cho phần vòm cung của cửa
+     * @param {Array} rings - Mảng các điểm tạo thành polygon
+     * @param {Array} color - Màu [R,G,B]
+     * @param {Array} edgeColor - Màu viền [R,G,B]
+     * @param {number} edgeSize - Độ dày viền
+     * @param {string} doorId - ID cửa
+     * @returns {Graphic} Graphic polygon phẳng
      */
     function createFlatPolygonMesh(rings, color, edgeColor = [26, 26, 26], edgeSize = 0.5, doorId = null) {
         const positions = [];
         const faces = [];
         
-        // Thêm vertices
         rings[0].forEach(point => {
             positions.push(point[0], point[1], point[2]);
         });
         
-        const numVertices = rings[0].length - 1; // bỏ điểm cuối trùng điểm đầu
+        const numVertices = rings[0].length - 1;
         
-        // Tạo faces (triangulate polygon đơn giản - fan triangulation)
+        // Chia polygon thành các tam giác (fan triangulation)
         for (let i = 1; i < numVertices - 1; i++) {
-            // Front face (CCW)
-            faces.push(0, i, i + 1);
-            // Back face (CW) - để render cả 2 mặt
-            faces.push(0, i + 1, i);
+            faces.push(0, i, i + 1);       // mặt trước
+            faces.push(0, i + 1, i);       // mặt sau (render 2 mặt)
         }
         
         const mesh = new Mesh({
@@ -98,7 +112,7 @@ require([
                     type: "fill",
                     material: { 
                         color: color,
-                        cullFace: "none"  // QUAN TRỌNG: render cả 2 mặt
+                        cullFace: "none"  // Hiển thị cả 2 mặt
                     },
                     edges: {
                         type: "solid",
@@ -115,7 +129,20 @@ require([
     }
 
     /**
-     * Tạo arch frame merged thành 1 mesh duy nhất (optimize performance)
+     * Tạo khung vòm cung (merged thành 1 mesh duy nhất để tối ưu hiệu suất)
+     * @param {Array} centerPoint - Tâm vòng cung
+     * @param {number} orientation - Hướng tường
+     * @param {number} normalOrientation - Hướng pháp tuyến
+     * @param {number} radius - Bán kính trong
+     * @param {number} outerRadius - Bán kính ngoài
+     * @param {number} baseZ - Độ cao đáy
+     * @param {number} rectHeight - Chiều cao phần chữ nhật
+     * @param {number} segments - Số đoạn chia vòng cung
+     * @param {number} frameDepth - Độ sâu khung
+     * @param {string} frameColor - Màu khung
+     * @param {string} frameEdgeColor - Màu viền khung
+     * @param {string} doorId - ID cửa
+     * @returns {Graphic} Graphic khung vòm
      */
     function createMergedArchFrame(
         centerPoint, orientation, normalOrientation,
@@ -155,7 +182,7 @@ require([
             const back1out = findNewPoint(p1out, normalOrientation, frameDepth);
             const back2out = findNewPoint(p2out, normalOrientation, frameDepth);
 
-            // 8 vertices cho mỗi segment
+            // 8 đỉnh cho mỗi phân đoạn
             positions.push(
                 p1in[0], p1in[1], z1in,
                 p1out[0], p1out[1], z1out,
@@ -169,12 +196,12 @@ require([
 
             const base = vertexIndex;
             faces.push(
-                base+0, base+1, base+2, base+0, base+2, base+3,  // front
-                base+5, base+4, base+7, base+5, base+7, base+6,  // back
-                base+4, base+0, base+3, base+4, base+3, base+7,  // inner
-                base+1, base+5, base+6, base+1, base+6, base+2,  // outer
-                base+4, base+5, base+1, base+4, base+1, base+0,  // bottom
-                base+3, base+2, base+6, base+3, base+6, base+7   // top
+                base+0, base+1, base+2, base+0, base+2, base+3,  // mặt trước
+                base+5, base+4, base+7, base+5, base+7, base+6,  // mặt sau
+                base+4, base+0, base+3, base+4, base+3, base+7,  // mặt trong
+                base+1, base+5, base+6, base+1, base+6, base+2,  // mặt ngoài
+                base+4, base+5, base+1, base+4, base+1, base+0,  // mặt dưới
+                base+3, base+2, base+6, base+3, base+6, base+7   // mặt trên
             );
 
             vertexIndex += 8;
@@ -208,8 +235,18 @@ require([
     }
 
     /**
-     * Tạo cửa vòm Roman (nửa hình tròn) cho Nhà thờ Đức Bà
-     * Theo đúng hình mẫu: có khung viền, vòm tròn, và cửa đen bên trong
+     * Tạo cửa vòm kiểu La Mã (Roman arch door) cho Nhà thờ Đức Bà
+     * Cửa có khung viền màu vàng, vòm bán nguyệt, và phần lấp màu xám nhạt bên trong
+     * @param {Array} wallPolygon - Polygon tường
+     * @param {number} leftPad - Khoảng cách từ điểm đầu tường đến cửa
+     * @param {number} width - Chiều rộng cửa
+     * @param {number} rectHeight - Chiều cao phần chữ nhật
+     * @param {number} baseZ - Độ cao đáy cửa (mặt đất)
+     * @param {number} depth - Độ sâu cửa (mặc định 0.5)
+     * @param {number} frameThickness - Độ dày khung (mặc định 0.3)
+     * @param {string} wallId - ID tường (để xác định hướng)
+     * @param {string} doorId - ID cửa (để nhận diện khi click)
+     * @returns {Array} Mảng graphics tạo thành cửa
      */
     function createArchedDoor(
         wallPolygon,
@@ -218,9 +255,9 @@ require([
         rectHeight,
         baseZ = 0,
         depth = 0.5,
-        frameThickness = 0.3,
-        wallId = null,  // THÊM THAM SỐ wallId
-        doorId = null   // THÊM doorId để nhận diện door khi click
+        frameThickness = 0.40,
+        wallId = null,
+        doorId = null
     ) {
         const graphics = [];
         const orientation = getPolygonOrientation(wallPolygon);
@@ -231,24 +268,73 @@ require([
         const doorRight = findNewPoint(doorLeft, orientation, width);
         
         const radius = width / 2;
-        const archHeight = radius;
 
+        // Xác định độ sâu khung theo từng tường
         let frameDepth;
         if (wallId === "wall-001" || wallId === "wall-005" || wallId === "wall-006") {
-            frameDepth = 0.3;
+            frameDepth = 0.3;  // Nhô ra ngoài
         } else if (wallId === "wall-002") {
-            frameDepth = -0.3;
+            frameDepth = -0.3; // Nhô vào trong
         } else {
             frameDepth = 0.3;
         }
 
-        const frameColor = "#d4c5a9";
-        const frameEdgeColor = "#f0e6d2"; // Sáng hơn
-        const frameWidth = frameThickness; // Khung dày đồng nhất
+        const frameColor = "#ffffff";           // Màu trắng cho khung trong
+        const frameEdgeColor = "#ffffff";       // Màu viền trắng
+        const frameWidth = frameThickness;
+        
+        // Lớp viền ngoài (dày gấp đôi, màu trắng vàng nhạt)
+        const outerFrameThickness = frameThickness * 2;
+        const outerFrameColor = "#fffef0";      // Màu trắng vàng nhạt
+        const outerFrameEdgeColor = "#fffef0";
 
-        // Khung DƯỚI (ngưỡng)
+        // Tính toán vị trí khung trong và ngoài
         const frameBottomLeft = findNewPoint(doorLeft, orientation, -frameWidth);
         const frameBottomRight = findNewPoint(doorRight, orientation, frameWidth);
+        const outerFrameBottomLeft = findNewPoint(doorLeft, orientation, -(frameWidth + outerFrameThickness));
+        const outerFrameBottomRight = findNewPoint(doorRight, orientation, (frameWidth + outerFrameThickness));
+
+        // === LỚP VIỀN NGOÀI (Outer frame) ===
+        // 1a. Khung ngoài dưới (ngưỡng cửa - lớp ngoài)
+        graphics.push(createBox(
+            outerFrameBottomLeft, frameBottomLeft,
+            baseZ - frameWidth * 0.5 - outerFrameThickness * 0.5, baseZ,
+            frameDepth,
+            normalOrientation,
+            outerFrameColor, outerFrameEdgeColor, 0.1,
+            doorId
+        ));
+        graphics.push(createBox(
+            frameBottomRight, outerFrameBottomRight,
+            baseZ - frameWidth * 0.5 - outerFrameThickness * 0.5, baseZ,
+            frameDepth,
+            normalOrientation,
+            outerFrameColor, outerFrameEdgeColor, 0.1,
+            doorId
+        ));
+        
+        // 1b. Khung ngoài trái (lớp ngoài)
+        graphics.push(createBox(
+            outerFrameBottomLeft, frameBottomLeft,
+            baseZ, baseZ + rectHeight,
+            frameDepth,
+            normalOrientation,
+            outerFrameColor, outerFrameEdgeColor, 0.1,
+            doorId
+        ));
+        
+        // 1c. Khung ngoài phải (lớp ngoài)
+        graphics.push(createBox(
+            frameBottomRight, outerFrameBottomRight,
+            baseZ, baseZ + rectHeight,
+            frameDepth,
+            normalOrientation,
+            outerFrameColor, outerFrameEdgeColor, 0.1,
+            doorId
+        ));
+
+        // === LỚP VIỀN TRONG (Inner frame - trắng) ===
+        // 2. Khung dưới (ngưỡng cửa)
         graphics.push(createBox(
             frameBottomLeft, frameBottomRight,
             baseZ - frameWidth * 0.5, baseZ,
@@ -258,29 +344,29 @@ require([
             doorId
         ));
 
-        // Khung TRÁI (viền mỏng, CHỈ ĐẾN NƠI VÒNG BẮT ĐẦU)
+        // 3. Khung trái (dừng ở vị trí vòm bắt đầu)
         graphics.push(createBox(
             frameBottomLeft, doorLeft,
-            baseZ, baseZ + rectHeight,  // Dừng ở rectHeight, không vượt lên vòm
+            baseZ, baseZ + rectHeight,
             frameDepth,
             normalOrientation,
             frameColor, frameEdgeColor, 0.15,
             doorId
         ));
 
-        // Khung PHẢI (viền mỏng, CHỈ ĐẾN NƠI VÒNG BẮT ĐẦU)
+        // 4. Khung phải (dừng ở vị trí vòm bắt đầu)
         graphics.push(createBox(
             doorRight, frameBottomRight,
-            baseZ, baseZ + rectHeight,  // Dừng ở rectHeight, không vượt lên vòm
+            baseZ, baseZ + rectHeight,
             frameDepth,
             normalOrientation,
             frameColor, frameEdgeColor, 0.15,
             doorId
         ));
 
-        // === TẠO ARCH POINTS TRƯỚC (cần cho cả wall-007 và walls khác) ===
+        // 4. Tạo điểm vòm cung
         const centerDoor = findNewPoint(doorLeft, orientation, width / 2);
-        const archSegments = 50;  // Tăng từ 30 lên 50 để phủ kín hơn
+        const archSegments = 50;
         
         const archPoints = [];
         for (let i = 0; i <= archSegments; i++) {
@@ -294,14 +380,15 @@ require([
 
         const fillDepth = frameDepth;
         
-        const rectMesh = createBox(
+        // 5. Phần lấp chữ nhật (màu xám đậm)
+        graphics.push(createBox(
             doorLeft, doorRight,
             baseZ, baseZ + rectHeight + 0.1,
             fillDepth, normalOrientation,
-            [10, 10, 10], [26, 26, 26], 0.5, doorId
-        );
-        graphics.push(rectMesh);
+            [120, 120, 120], [120, 120, 120], 0, doorId
+        ));
         
+        // 6. Phần lấp vòm cung (màu xám đậm)
         const archFillRings = [[
             [doorLeft[0], doorLeft[1], baseZ + rectHeight],
             ...archPoints,
@@ -309,36 +396,45 @@ require([
             [doorLeft[0], doorLeft[1], baseZ + rectHeight]
         ]];
         
-        // Offset toàn bộ ra ngoài
         const offsetArchRings = archFillRings[0].map(p => {
             const offsetP = findNewPoint([p[0], p[1]], normalOrientation, fillDepth);
             return [offsetP[0], offsetP[1], p[2]];
         });
         
-        const archFillMesh = createFlatPolygonMesh(
+        graphics.push(createFlatPolygonMesh(
             [offsetArchRings],
-            [10, 10, 10],
-            [26, 26, 26],
-            0.5,
+            [120, 120, 120],
+            [120, 120, 120],
+            0,
             doorId
-        );
-        graphics.push(archFillMesh);
+        ));
 
-        const outerRadius = radius + frameThickness;
+        // 8. Khung vòm cung
         const archFrameSegments = 60;
+        const outerArchOuterRadius = radius + frameThickness + outerFrameThickness;
+        const outerArchInnerRadius = radius + frameThickness;
         
-        const mergedArchFrame = createMergedArchFrame(
+        // Lớp ngoài - màu trắng vàng nhạt
+        graphics.push(createMergedArchFrame(
+            centerDoor, orientation, normalOrientation,
+            outerArchInnerRadius, outerArchOuterRadius, baseZ, rectHeight,
+            archFrameSegments, frameDepth, outerFrameColor, outerFrameEdgeColor, doorId
+        ));
+
+        // Lớp trong - màu trắng
+        const outerRadius = radius + frameThickness;
+        
+        graphics.push(createMergedArchFrame(
             centerDoor, orientation, normalOrientation,
             radius, outerRadius, baseZ, rectHeight,
             archFrameSegments, frameDepth, frameColor, frameEdgeColor, doorId
-        );
-        graphics.push(mergedArchFrame);
+        ));
 
         return graphics;
     }
 
     /**
-     * Tính chiều dài tường
+     * Tính chiều dài tường (đơn vị: mét)
      */
     function getWallLength(polygon) {
         const p0 = polygon[0];
@@ -346,41 +442,44 @@ require([
         const dx = p1[0] - p0[0];
         const dy = p1[1] - p0[1];
         const lengthInDegrees = Math.sqrt(dx * dx + dy * dy);
-        return lengthInDegrees * 111000;
+        return lengthInDegrees * 111000; // Chuyển độ sang mét
     }
 
     /**
-     * Tạo cửa và thêm vào graphicsLayer
+     * Thêm 1 cửa vào layer (helper function)
      */
     function addDoor(graphicsLayer, wallPolygon, width, height, wallId, doorId) {
         const wallLength = getWallLength(wallPolygon);
-        const leftPad = (wallLength - width) / 2;
+        const leftPad = (wallLength - width) / 2; // Căn giữa tường
         const doors = createArchedDoor(
             wallPolygon, leftPad, width, height,
-            9, 0.5, 0.2, wallId, doorId
+            9, 0.5, 0.26, wallId, doorId
         );
         doors.forEach(g => graphicsLayer.add(g));
     }
 
     /**
-     * Thêm 3 cửa chính
+     * Thêm 3 cửa chính phía trước tháp chuông
      */
     function addMainDoors(graphicsLayer, walls) {
+        // Cửa trái
         addDoor(graphicsLayer, walls.wall001, 3.52, 5.5, "wall-001", "main-door-left");
         
+        // Cửa giữa (lớn hơn)
         const wall5Length = getWallLength(walls.wall005);
         const centerPad = (wall5Length - 4.62) / 2;
         const centerDoors = createArchedDoor(
             walls.wall005, centerPad, 4.62, 6.05,
-            9, 0.6, 0.25, "wall-005", "main-door-center"
+            9, 0.6, 0.33, "wall-005", "main-door-center"
         );
         centerDoors.forEach(g => graphicsLayer.add(g));
         
+        // Cửa phải
         addDoor(graphicsLayer, walls.wall006, 3.52, 5.5, "wall-006", "main-door-right");
     }
 
     /**
-     * Thêm 2 cửa bên hông
+     * Thêm 2 cửa bên hông tháp chuông
      */
     function addSideDoors(graphicsLayer, walls) {
         if (walls.wall002) {
@@ -391,7 +490,7 @@ require([
         }
     }
 
-    // Export functions
+    // Export các hàm để sử dụng ở file khác
     window.createArchedDoor = createArchedDoor;
     window.addMainDoors = addMainDoors;
     window.addSideDoors = addSideDoors;

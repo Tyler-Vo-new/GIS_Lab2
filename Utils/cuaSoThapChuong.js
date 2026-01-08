@@ -4,7 +4,8 @@ require([
 ], function (Graphic, Mesh) {
 
     /**
-     * Tạo một BOX mesh đơn giản (hình hộp 3D)
+     * Tạo hình hộp 3D cho các thành phần cửa sổ
+     * (Sử dụng chung cho khung và phần lấp cửa sổ)
      */
     function createBox(p0, p1, z0, z1, depth, normalOrientation, color, edgeColor = "white", edgeSize = 0.5) {
         const front0 = p0;
@@ -13,12 +14,12 @@ require([
         const back1 = findNewPoint(front1, normalOrientation, depth);
 
         const positions = [
-            // FRONT
+            // Mặt trước
             front0[0], front0[1], z0,
             front1[0], front1[1], z0,
             front1[0], front1[1], z1,
             front0[0], front0[1], z1,
-            // BACK
+            // Mặt sau
             back0[0], back0[1], z0,
             back1[0], back1[1], z0,
             back1[0], back1[1], z1,
@@ -26,12 +27,12 @@ require([
         ];
 
         const faces = [
-            0, 1, 2, 0, 2, 3,  // front
-            5, 4, 7, 5, 7, 6,  // back
-            4, 0, 3, 4, 3, 7,  // left
-            1, 5, 6, 1, 6, 2,  // right
-            4, 5, 1, 4, 1, 0,  // bottom
-            3, 2, 6, 3, 6, 7   // top
+            0, 1, 2, 0, 2, 3,  // mặt trước
+            5, 4, 7, 5, 7, 6,  // mặt sau
+            4, 0, 3, 4, 3, 7,  // mặt trái
+            1, 5, 6, 1, 6, 2,  // mặt phải
+            4, 5, 1, 4, 1, 0,  // mặt dưới
+            3, 2, 6, 3, 6, 7   // mặt trên
         ];
 
         const mesh = new Mesh({
@@ -217,8 +218,20 @@ require([
         let normalOrientation = orientation + 90;
         const wallBL = wallPolygon[0];
 
-        const frameThickness = 0.15;
-        const gap = 0.3;
+        // Kiểm tra xem có phải cửa chính không
+        const isMainDoor = (wallId === "wall-020" || wallId === "wall-021");
+        
+        // Kiểm tra xem có phải cửa sổ tầng trên tháp chuông không (walls 059-066)
+        const isUpperBellTowerWindow = (wallId === "wall-001" || wallId === "wall-002" || 
+                                         wallId === "wall-003" || wallId === "wall-004" || 
+                                         wallId === "wall-006" || wallId === "wall-007" || 
+                                         wallId === "wall-008" || wallId === "wall-009");
+        
+        // Frame thickness: dày hơn cho cửa chính để cân đối với cửa tháp chuông
+        const frameThickness = isMainDoor ? 0.30 : 0.18;
+        
+        // Khoảng cách giữa 2 cửa: lớn hơn cho cửa chính và cửa sổ tầng trên (để viền không chồng)
+        const gap = isMainDoor ? 1.0 : (isUpperBellTowerWindow ? 0.8 : 0.3);
         
         // Điều chỉnh depth và normal theo wall
         let frameDepth;
@@ -238,16 +251,34 @@ require([
             // wall-003: ngược hướng 180 độ so với wall-001
             normalOrientation = orientation - 90;
             frameDepth = 0.3;
-        } else if (wallId === "wall-002") {
-            // wall-002: hướng ngược (frameDepth âm)
+        } else if (wallId === "wall-002" || wallId === "wall-014") {
+            // wall-002, wall-014: hướng ngược (frameDepth âm)
+            frameDepth = -0.3;
+        } else if (wallId === "wall-020") {
+            // wall-020: cửa chính, frameDepth dương
+            frameDepth = 0.3;
+        } else if (wallId === "wall-021") {
+            // wall-021: cửa chính, frameDepth âm
+            frameDepth = -0.3;
+        } else if (wallId === "wall-024") {
+            // wall-024: cửa sổ ở vị trí cao, frameDepth dương (nhô ra ngoài)
+            frameDepth = 0.3;
+        } else if (wallId === "wall-025") {
+            // wall-025: cửa sổ ở vị trí cao, frameDepth âm (ngược hướng wall-024)
             frameDepth = -0.3;
         } else {
-            // wall-001, 006, 007: hướng thuận
+            // wall-001, 006, 007, 011: hướng thuận
             frameDepth = 0.3;
         }
 
-        const frameColor = "#d4c5a9";
-        const frameEdgeColor = "#f0e6d2";
+        const frameColor = "#ffffff";
+        const frameEdgeColor = "#ffffff";
+
+        // Lớp viền ngoài cho cửa chính (walls 020, 021) và cửa sổ tầng trên tháp chuông
+        const outerFrameThickness = frameThickness * 2;
+        const outerFrameColor = "#fffef0";
+        const outerFrameEdgeColor = "#fffef0";
+        const hasOuterFrame = isMainDoor || isUpperBellTowerWindow;
 
         const radius = width / 2;
 
@@ -265,10 +296,49 @@ require([
         const leftFrameLeft = findNewPoint(leftWinLeft, orientation, -frameThickness);
         const leftFrameRight = findNewPoint(leftWinRight, orientation, frameThickness);
 
-        // Khung dưới
+        // Outer frame cho cửa trái (cho cửa chính và cửa sổ tầng trên tháp chuông)
+        if (hasOuterFrame) {
+            const leftOuterFrameLeft = findNewPoint(leftWinLeft, orientation, -(frameThickness + outerFrameThickness));
+            const leftOuterFrameRight = findNewPoint(leftWinRight, orientation, (frameThickness + outerFrameThickness));
+
+            // Outer frame dưới (trái)
+            graphics.push(createBox(
+                leftOuterFrameLeft, leftFrameLeft,
+                baseZ - frameThickness * 0.5 - outerFrameThickness * 0.5, baseZ,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+            // Outer frame dưới (phải)
+            graphics.push(createBox(
+                leftFrameRight, leftOuterFrameRight,
+                baseZ - frameThickness * 0.5 - outerFrameThickness * 0.5, baseZ,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+
+            // Outer frame trái
+            graphics.push(createBox(
+                leftOuterFrameLeft, leftFrameLeft,
+                baseZ - frameThickness, baseZ + rectHeight,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+
+            // Thanh ngang dưới cùng cho outer frame trái (chân khung) - không cần nữa
+
+            // Outer frame phải
+            graphics.push(createBox(
+                leftFrameRight, leftOuterFrameRight,
+                baseZ - frameThickness, baseZ + rectHeight,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+        }
+
+        // Khung dưới (inner frame) - cao hơn để khớp với thanh dọc
         graphics.push(createBox(
             leftFrameLeft, leftFrameRight,
-            baseZ - frameThickness * 0.5, baseZ,
+            baseZ - frameThickness, baseZ,
             frameDepth, normalOrientation,
             frameColor, frameEdgeColor, 0.1
         ));
@@ -276,7 +346,7 @@ require([
         // Khung trái
         graphics.push(createBox(
             leftFrameLeft, leftWinLeft,
-            baseZ, baseZ + rectHeight,
+            baseZ - frameThickness, baseZ + rectHeight,
             frameDepth, normalOrientation,
             frameColor, frameEdgeColor, 0.1
         ));
@@ -284,7 +354,7 @@ require([
         // Khung phải
         graphics.push(createBox(
             leftWinRight, leftFrameRight,
-            baseZ, baseZ + rectHeight,
+            baseZ - frameThickness, baseZ + rectHeight,
             frameDepth, normalOrientation,
             frameColor, frameEdgeColor, 0.1
         ));
@@ -294,7 +364,7 @@ require([
             leftWinLeft, leftWinRight,
             baseZ, baseZ + rectHeight + 0.05,
             frameDepth, normalOrientation,
-            [10, 10, 10], [26, 26, 26], 0.3
+            [120, 120, 120], [120, 120, 120], 0
         ));
 
         // Vòm cung cửa trái
@@ -324,12 +394,25 @@ require([
         
         graphics.push(createFlatPolygonMesh(
             [leftOffsetRings],
-            [10, 10, 10], [26, 26, 26], 0.3
+            [120, 120, 120], [120, 120, 120], 0
         ));
 
         const outerRadius = radius + frameThickness;
         const archFrameSegments = 40;
 
+        // Outer arch frame cho cửa trái (cho cửa chính và cửa sổ tầng trên tháp chuông)
+        if (hasOuterFrame) {
+            const leftOuterArchOuterRadius = radius + frameThickness + outerFrameThickness;
+            const leftOuterArchInnerRadius = radius + frameThickness;
+            const leftOuterArchFrame = createMergedArchFrame(
+                leftWinCenter, orientation, normalOrientation,
+                leftOuterArchInnerRadius, leftOuterArchOuterRadius, baseZ, rectHeight,
+                archFrameSegments, frameDepth, outerFrameColor, outerFrameEdgeColor
+            );
+            graphics.push(leftOuterArchFrame);
+        }
+
+        // Inner arch frame
         const leftArchFrame = createMergedArchFrame(
             leftWinCenter, orientation, normalOrientation,
             radius, outerRadius, baseZ, rectHeight,
@@ -345,10 +428,49 @@ require([
         const rightFrameLeft = findNewPoint(rightWinLeft, orientation, -frameThickness);
         const rightFrameRight = findNewPoint(rightWinRight, orientation, frameThickness);
 
-        // Khung dưới
+        // Outer frame cho cửa phải (cho cửa chính và cửa sổ tầng trên tháp chuông)
+        if (hasOuterFrame) {
+            const rightOuterFrameLeft = findNewPoint(rightWinLeft, orientation, -(frameThickness + outerFrameThickness));
+            const rightOuterFrameRight = findNewPoint(rightWinRight, orientation, (frameThickness + outerFrameThickness));
+
+            // Outer frame dưới (trái)
+            graphics.push(createBox(
+                rightOuterFrameLeft, rightFrameLeft,
+                baseZ - frameThickness * 0.5 - outerFrameThickness * 0.5, baseZ,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+            // Outer frame dưới (phải)
+            graphics.push(createBox(
+                rightFrameRight, rightOuterFrameRight,
+                baseZ - frameThickness * 0.5 - outerFrameThickness * 0.5, baseZ,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+
+            // Outer frame trái
+            graphics.push(createBox(
+                rightOuterFrameLeft, rightFrameLeft,
+                baseZ - frameThickness, baseZ + rectHeight,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+
+            // Thanh ngang dưới cùng cho outer frame trái (chân khung) - không cần nữa
+
+            // Outer frame phải
+            graphics.push(createBox(
+                rightFrameRight, rightOuterFrameRight,
+                baseZ - frameThickness, baseZ + rectHeight,
+                frameDepth, normalOrientation,
+                outerFrameColor, outerFrameEdgeColor, 0.1
+            ));
+        }
+
+        // Khung dưới (inner frame) - cao hơn để khớp với thanh dọc
         graphics.push(createBox(
             rightFrameLeft, rightFrameRight,
-            baseZ - frameThickness * 0.5, baseZ,
+            baseZ - frameThickness, baseZ,
             frameDepth, normalOrientation,
             frameColor, frameEdgeColor, 0.1
         ));
@@ -356,7 +478,7 @@ require([
         // Khung trái
         graphics.push(createBox(
             rightFrameLeft, rightWinLeft,
-            baseZ, baseZ + rectHeight,
+            baseZ - frameThickness, baseZ + rectHeight,
             frameDepth, normalOrientation,
             frameColor, frameEdgeColor, 0.1
         ));
@@ -364,7 +486,7 @@ require([
         // Khung phải
         graphics.push(createBox(
             rightWinRight, rightFrameRight,
-            baseZ, baseZ + rectHeight,
+            baseZ - frameThickness, baseZ + rectHeight,
             frameDepth, normalOrientation,
             frameColor, frameEdgeColor, 0.1
         ));
@@ -374,7 +496,7 @@ require([
             rightWinLeft, rightWinRight,
             baseZ, baseZ + rectHeight + 0.05,
             frameDepth, normalOrientation,
-            [10, 10, 10], [26, 26, 26], 0.3
+            [120, 120, 120], [120, 120, 120], 0
         ));
 
         // Vòm cung cửa phải
@@ -403,9 +525,22 @@ require([
         
         graphics.push(createFlatPolygonMesh(
             [rightOffsetRings],
-            [10, 10, 10], [26, 26, 26], 0.3
+            [120, 120, 120], [120, 120, 120], 0
         ));
 
+        // Outer arch frame cho cửa phải (cho cửa chính và cửa sổ tầng trên tháp chuông)
+        if (hasOuterFrame) {
+            const rightOuterArchOuterRadius = radius + frameThickness + outerFrameThickness;
+            const rightOuterArchInnerRadius = radius + frameThickness;
+            const rightOuterArchFrame = createMergedArchFrame(
+                rightWinCenter, orientation, normalOrientation,
+                rightOuterArchInnerRadius, rightOuterArchOuterRadius, baseZ, rectHeight,
+                archFrameSegments, frameDepth, outerFrameColor, outerFrameEdgeColor
+            );
+            graphics.push(rightOuterArchFrame);
+        }
+
+        // Inner arch frame
         const rightArchFrame = createMergedArchFrame(
             rightWinCenter, orientation, normalOrientation,
             radius, outerRadius, baseZ, rectHeight,
@@ -429,15 +564,41 @@ require([
     ) {
         const graphics = [];
         const orientation = getPolygonOrientation(wallPolygon);
-        const normalOrientation = orientation + 90;
+        let normalOrientation = orientation + 90;
         const wallBL = wallPolygon[0];
 
-        const frameThickness = 0.15;
+        const frameThickness = 0.20; // Tăng thêm 10% (0.18 -> 0.20)
         const gap = 0.3;
-        const frameDepth = 0.3;  // wall-005 hướng thuận
+        
+        // Điều chỉnh frameDepth theo wall
+        let frameDepth;
+        if (wallId === "wall-016" || wallId === "wall-029") {
+            // wall-016, wall-029: cùng hướng wall-014 (frameDepth âm)
+            frameDepth = -0.3;
+        } else if (wallId === "wall-017" || wallId === "wall-028") {
+            // wall-017, wall-028: đảo ngược normal và frameDepth âm
+            normalOrientation = orientation - 90;
+            frameDepth = -0.3;
+        } else if (wallId === "wall-018" || wallId === "wall-023") {
+            // wall-018, wall-023: frameDepth âm, không đảo normal
+            frameDepth = -0.3;
+        } else if (wallId === "wall-019" || wallId === "wall-022") {
+            // wall-019, wall-022: đảo ngược normal và frameDepth âm
+            normalOrientation = orientation - 90;
+            frameDepth = -0.3;
+        } else if (wallId === "wall-020") {
+            // wall-020: frameDepth dương
+            frameDepth = 0.3;
+        } else if (wallId === "wall-021") {
+            // wall-021: frameDepth âm (ngược với wall-020)
+            frameDepth = -0.3;
+        } else {
+            // wall-005: hướng thuận
+            frameDepth = 0.3;
+        }
 
-        const frameColor = "#d4c5a9";
-        const frameEdgeColor = "#f0e6d2";
+        const frameColor = "#ffffff";
+        const frameEdgeColor = "#ffffff";
         const radius = width / 2;
 
         // Tính vị trí 3 cửa
@@ -484,7 +645,7 @@ require([
                 winLeft, winRight,
                 baseZ, baseZ + rectHeight + 0.05,
                 frameDepth, normalOrientation,
-                [10, 10, 10], [26, 26, 26], 0.3
+                [120, 120, 120], [120, 120, 120], 0
             ));
 
             // Vòm cung
@@ -514,7 +675,7 @@ require([
 
             graphics.push(createFlatPolygonMesh(
                 [offsetRings],
-                [10, 10, 10], [26, 26, 26], 0.3
+                [120, 120, 120], [120, 120, 120], 0
             ));
 
             // Khung vòm
@@ -553,14 +714,14 @@ require([
         const topHeight = middleHeight * 1.2;  // Cặp trên cùng cao hơn tầng giữa 20%
 
         const bottomRectHeight = bottomHeight * 0.65;
-        const middleRectHeight = middleHeight * 0.65;
+        const middleRectHeight = bottomRectHeight;  // Tầng giữa có chiều cao bằng tầng dưới
         const topRectHeight = topHeight * 0.65;
 
         // Chiều rộng mỗi cửa (tăng 20% so với ban đầu: 1.2 * 1.2 = 1.44m)
         const windowWidth = 1.44;
 
-        // Tính baseZ để cửa sổ lùi xuống 5% so với vị trí giữa tường
-        const windowsBaseZ = wallBaseZ + (wallHeight * 0.45) - (totalWindowsHeight / 2);
+        // Tính baseZ để cửa sổ lùi xuống 5% so với vị trí giữa tường, sau đó dịch xuống thêm 0.5m
+        const windowsBaseZ = wallBaseZ + (wallHeight * 0.45) - (totalWindowsHeight / 2) - 0.5;
 
         // === THÁP TRÁI (wall-001) ===
         const wall1Length = getWallLength(walls.wall001);
@@ -590,10 +751,14 @@ require([
         middleGraphics1.forEach(g => graphicsLayer.add(g));
 
         // Cặp cửa trên cùng (rộng hơn 10%, cao hơn 20% so với tầng giữa)
-        const topBaseZ1 = middleBaseZ1 + middleHeight + topGap + 3.5;
+        // Sử dụng wall-059 (tầng trên) nếu có, nếu không dùng tính toán cũ
+        // Căn giữa tường: baseZ + (wallHeight/2) - (windowHeight/2) + offset
+        const topBaseZ1 = walls.topWall059BaseZ ? (walls.topWall059BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ1 + middleHeight + topGap + 3.5);
+        const topWall1 = walls.wall059 || walls.wall001;  // Dùng wall tầng trên nếu có
+        const topWall1Center = walls.wall059 ? getWallLength(walls.wall059) / 2 : wall1Center;  // Tính center của wall tầng trên
         const topGraphics1 = createWindowPair(
-            walls.wall001,
-            wall1Center,
+            topWall1,
+            topWall1Center,
             windowWidth * 1.43,  // 1.3 * 1.1 = rộng hơn tầng giữa 10%
             topRectHeight,
             topBaseZ1,
@@ -629,10 +794,13 @@ require([
         middleGraphics6.forEach(g => graphicsLayer.add(g));
 
         // Cặp cửa trên cùng (rộng hơn 10%, cao hơn 20% so với tầng giữa)
-        const topBaseZ6 = middleBaseZ6 + middleHeight + topGap + 3.5;
+        // Sử dụng wall-063 (tầng trên) nếu có
+        const topBaseZ6 = walls.topWall063BaseZ ? (walls.topWall063BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ6 + middleHeight + topGap + 3.5);
+        const topWall6 = walls.wall063 || walls.wall006;
+        const topWall6Center = walls.wall063 ? getWallLength(walls.wall063) / 2 : wall6Center;
         const topGraphics6 = createWindowPair(
-            walls.wall006,
-            wall6Center,
+            topWall6,
+            topWall6Center,
             windowWidth * 1.43,  // 1.3 * 1.1 = rộng hơn tầng giữa 10%
             topRectHeight,
             topBaseZ6,
@@ -655,10 +823,10 @@ require([
         const middleHeight = bottomHeight * 1.3;
         const topHeight = middleHeight * 1.2;
         const bottomRectHeight = bottomHeight * 0.65;
-        const middleRectHeight = middleHeight * 0.65;
+        const middleRectHeight = bottomRectHeight;  // Tầng giữa có chiều cao bằng tầng dưới
         const topRectHeight = topHeight * 0.65;
         const windowWidth = 1.44;
-        const windowsBaseZ = wallBaseZ + (wallHeight * 0.45) - (totalWindowsHeight / 2);
+        const windowsBaseZ = wallBaseZ + (wallHeight * 0.45) - (totalWindowsHeight / 2) - 0.5;
 
         // === TƯỜNG BÊN TRÁI (wall-002) ===
         if (walls.wall002) {
@@ -689,10 +857,13 @@ require([
             middleGraphics2.forEach(g => graphicsLayer.add(g));
 
             // Cặp cửa trên cùng (rộng hơn 10%, cao hơn 20% so với tầng giữa)
-            const topBaseZ2 = middleBaseZ2 + middleHeight + topGap + 3.5;
+            // Sử dụng wall-060 (tầng trên) nếu có
+            const topBaseZ2 = walls.topWall060BaseZ ? (walls.topWall060BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ2 + middleHeight + topGap + 3.5);
+            const topWall2 = walls.wall060 || walls.wall002;
+            const topWall2Center = walls.wall060 ? getWallLength(walls.wall060) / 2 : wall2Center;
             const topGraphics2 = createWindowPair(
-                walls.wall002,
-                wall2Center,
+                topWall2,
+                topWall2Center,
                 windowWidth * 1.43,
                 topRectHeight,
                 topBaseZ2,
@@ -730,10 +901,13 @@ require([
             middleGraphics9.forEach(g => graphicsLayer.add(g));
 
             // Cặp cửa trên cùng
-            const topBaseZ9 = middleBaseZ9 + middleHeight + topGap + 3.5;
+            // Sử dụng wall-066 (tầng trên) nếu có
+            const topBaseZ9 = walls.topWall066BaseZ ? (walls.topWall066BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ9 + middleHeight + topGap + 3.5);
+            const topWall9 = walls.wall066 || walls.wall009;
+            const topWall9Center = walls.wall066 ? getWallLength(walls.wall066) / 2 : wall9Center;
             const topGraphics9 = createWindowPair(
-                walls.wall009,
-                wall9Center,
+                topWall9,
+                topWall9Center,
                 windowWidth * 1.43,
                 topRectHeight,
                 topBaseZ9,
@@ -771,10 +945,13 @@ require([
             middleGraphics4.forEach(g => graphicsLayer.add(g));
 
             // Cặp cửa trên cùng
-            const topBaseZ4 = middleBaseZ4 + middleHeight + topGap + 3.5;
+            // Sử dụng wall-062 (tầng trên) nếu có
+            const topBaseZ4 = walls.topWall062BaseZ ? (walls.topWall062BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ4 + middleHeight + topGap + 3.5);
+            const topWall4 = walls.wall062 || walls.wall004;
+            const topWall4Center = walls.wall062 ? getWallLength(walls.wall062) / 2 : wall4Center;
             const topGraphics4 = createWindowPair(
-                walls.wall004,
-                wall4Center,
+                topWall4,
+                topWall4Center,
                 windowWidth * 1.43,
                 topRectHeight,
                 topBaseZ4,
@@ -812,10 +989,13 @@ require([
             middleGraphics7.forEach(g => graphicsLayer.add(g));
 
             // Cặp cửa trên cùng (rộng hơn 10%, cao hơn 20% so với tầng giữa)
-            const topBaseZ7 = middleBaseZ7 + middleHeight + topGap + 3.5;
+            // Sử dụng wall-064 (tầng trên) nếu có
+            const topBaseZ7 = walls.topWall064BaseZ ? (walls.topWall064BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ7 + middleHeight + topGap + 3.5);
+            const topWall7 = walls.wall064 || walls.wall007;
+            const topWall7Center = walls.wall064 ? getWallLength(walls.wall064) / 2 : wall7Center;
             const topGraphics7 = createWindowPair(
-                walls.wall007,
-                wall7Center,
+                topWall7,
+                topWall7Center,
                 windowWidth * 1.43,
                 topRectHeight,
                 topBaseZ7,
@@ -869,11 +1049,11 @@ require([
         const topHeight = middleHeight * 1.2;
 
         const bottomRectHeight = bottomHeight * 0.65;
-        const middleRectHeight = middleHeight * 0.65;
+        const middleRectHeight = bottomRectHeight;  // Tầng giữa có chiều cao bằng tầng dưới
         const topRectHeight = topHeight * 0.65;
 
         const windowWidth = 1.44;
-        const windowsBaseZ = wallBaseZ + (wallHeight * 0.45) - (totalWindowsHeight / 2);
+        const windowsBaseZ = wallBaseZ + (wallHeight * 0.45) - (totalWindowsHeight / 2) - 0.5;
 
         // === THÁP SAU TRÁI (wall-003) ===
         if (walls.wall003) {
@@ -904,10 +1084,13 @@ require([
             middleGraphics3.forEach(g => graphicsLayer.add(g));
 
             // Cặp cửa trên cùng
-            const topBaseZ3 = middleBaseZ3 + middleHeight + topGap + 3.5;
+            // Sử dụng wall-061 (tầng trên) nếu có
+            const topBaseZ3 = walls.topWall061BaseZ ? (walls.topWall061BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ3 + middleHeight + topGap + 3.5);
+            const topWall3 = walls.wall061 || walls.wall003;
+            const topWall3Center = walls.wall061 ? getWallLength(walls.wall061) / 2 : wall3Center;
             const topGraphics3 = createWindowPair(
-                walls.wall003,
-                wall3Center,
+                topWall3,
+                topWall3Center,
                 windowWidth * 1.43,
                 topRectHeight,
                 topBaseZ3,
@@ -945,10 +1128,13 @@ require([
             middleGraphics8.forEach(g => graphicsLayer.add(g));
 
             // Cặp cửa trên cùng
-            const topBaseZ8 = middleBaseZ8 + middleHeight + topGap + 3.5;
+            // Sử dụng wall-065 (tầng trên) nếu có
+            const topBaseZ8 = walls.topWall065BaseZ ? (walls.topWall065BaseZ + (12/2) - (topHeight/2) + 1) : (middleBaseZ8 + middleHeight + topGap + 3.5);
+            const topWall8 = walls.wall065 || walls.wall008;
+            const topWall8Center = walls.wall065 ? getWallLength(walls.wall065) / 2 : wall8Center;
             const topGraphics8 = createWindowPair(
-                walls.wall008,
-                wall8Center,
+                topWall8,
+                topWall8Center,
                 windowWidth * 1.43,
                 topRectHeight,
                 topBaseZ8,
@@ -959,10 +1145,18 @@ require([
     }
 
     // Export functions
+    window.getWallLength = getWallLength;
     window.createWindowPair = createWindowPair;
     window.createWindowTriplet = createWindowTriplet;
     window.addTowerWindows = addTowerWindows;
     window.addBackTowerWindows = addBackTowerWindows;
     window.addSideWindows = addSideWindows;
     window.addCenterWindows = addCenterWindows;
+    
+    // Export helper functions for other modules
+    window.createBox = createBox;
+    window.createFlatPolygonMesh = createFlatPolygonMesh;
+    window.createMergedArchFrame = createMergedArchFrame;
+    window.findNewPoint = findNewPoint;
+    window.getPolygonOrientation = getPolygonOrientation;
 });
