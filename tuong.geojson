@@ -1202,6 +1202,30 @@
                     ]
                 ]
             }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-047-fill",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 11,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69870192812932,
+                        10.78002659492712
+                    ],
+                    [
+                        106.69869289386482,
+                        10.779958411222736
+                    ]
+                ]
+            }
         }
 
         

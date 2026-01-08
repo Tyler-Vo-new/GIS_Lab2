@@ -52,6 +52,14 @@ require([
         .then(res => res.json())
         .then(data => {
             data.features.forEach(feature => {
+                if (["wall-044", "wall-045", "wall-048"].includes(feature.properties.id)) {
+                    const fillFeature = JSON.parse(JSON.stringify(feature));
+                    fillFeature.properties.height = feature.properties.baseZ;
+                    fillFeature.properties.baseZ = 0;
+                    fillFeature.properties.id = feature.properties.id + "-fill";
+                    graphicsLayer.add(createWallGraphic(fillFeature));
+                }
+
                 var wallGraphic = null;
                 if (feature.properties.id == "wall-013" || feature.properties.id == "wall-010") {
                     wallGraphic = createWallGraphic1(feature);
@@ -59,8 +67,11 @@ require([
                 } else if (["wall-005", "wall-020", "wall-021"].includes(feature.properties.id)) {
                     wallGraphic = createWallGraphic2(feature, 3);
                     graphicsLayer.add(wallGraphic);
-                } else if (["wall-026", "wall-027"].includes(feature.properties.id)) {
+                } else if (["wall-026"].includes(feature.properties.id)) {
                     wallGraphic = createWallGraphic2(feature, 2);
+                    graphicsLayer.add(wallGraphic);
+                } else if (["wall-027"].includes(feature.properties.id)) {
+                    wallGraphic = createWallGraphic2(feature, 1.31);
                     graphicsLayer.add(wallGraphic);
                 }
                 else {
@@ -137,6 +148,305 @@ require([
             // Đặt ngói cho tầng một phải
             datNgoiTretPhai("wall-012")
             
+            // Đặt ngói cho polygon 1 (đuôi giữa) - Tường: 050 052 053 051 049
+            const walls_DuoiGiua = data.features.filter(f => ["wall-050", "wall-052", "wall-053", "wall-051", "wall-049"].includes(f.properties.id));
+            if (walls_DuoiGiua.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_DuoiGiua.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: (sumX / count) + 0.000375,
+                    y: sumY / count + 0.000094,
+                    z: walls_DuoiGiua[0].properties.baseZ + walls_DuoiGiua[0].properties.height - 28
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/DuoiGiua.glb")
+                    .then(geometry => {
+                        geometry.scale(27, { origin: center });
+                        geometry.rotate(0, 0, 315); // Xoay theo hướng nhà thờ (NW)
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (đuôi ngoài cùng trái) - Tường: 043 042 041
+            const walls_DuoiNgoaiCungTrai = data.features.filter(f => ["wall-043", "wall-042", "wall-041"].includes(f.properties.id));
+            if (walls_DuoiNgoaiCungTrai.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_DuoiNgoaiCungTrai.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.000553,
+                    y: sumY / count  - 0.000273,
+                    z: walls_DuoiNgoaiCungTrai[0].properties.baseZ + walls_DuoiNgoaiCungTrai[0].properties.height - 7.28
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/DuoiNgoaiCungTrai.glb")
+                    .then(geometry => {
+                        geometry.scale(30.8, { origin: center });
+                        geometry.rotate(0, 0, 285);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (đuôi ngoài cùng phải) - Tường: 038 039 040
+            const walls_DuoiNgoaiCungPhai = data.features.filter(f => ["wall-038", "wall-039", "wall-040"].includes(f.properties.id));
+            if (walls_DuoiNgoaiCungPhai.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_DuoiNgoaiCungPhai.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.000324,
+                    y: sumY / count - 0.000395,
+                    z: walls_DuoiNgoaiCungPhai[0].properties.baseZ + walls_DuoiNgoaiCungPhai[0].properties.height - 7.74
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/DuoiNgoaiCungPhai.glb")
+                    .then(geometry => {
+                        geometry.scale(30.8, { origin: center });
+                        geometry.rotate(0, 0, 345);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (đuôi thứ 2 trái) - Tường: 035 036 037
+            const walls_DuoiThu2Trai = data.features.filter(f => ["wall-035", "wall-036", "wall-037"].includes(f.properties.id));
+            if (walls_DuoiThu2Trai.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_DuoiThu2Trai.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.000469,
+                    y: sumY / count + 0.000384,
+                    z: walls_DuoiThu2Trai[0].properties.baseZ + walls_DuoiThu2Trai[0].properties.height - 3.88
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/DuoiThu2Trai.glb")
+                    .then(geometry => {
+                        geometry.scale(26, { origin: center });
+                        geometry.rotate(0, 0, 365);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (đuôi thứ 2 phải) - Tường: 032 033 034
+            const walls_DuoiThu2Phai = data.features.filter(f => ["wall-032", "wall-033", "wall-034"].includes(f.properties.id));
+            if (walls_DuoiThu2Phai.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_DuoiThu2Phai.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count - 0.000275,
+                    y: sumY / count - 0.000509,
+                    z: walls_DuoiThu2Phai[0].properties.baseZ + walls_DuoiThu2Phai[0].properties.height - 3.33
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/DuoiThu2Phai.glb")
+                    .then(geometry => {
+                        geometry.scale(26, { origin: center });
+                        geometry.rotate(0, 0, 265);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (VomU) - Tường: 045 046 047 048
+            const walls_VomU = data.features.filter(f => ["wall-045", "wall-046", "wall-047", "wall-048"].includes(f.properties.id));
+            if (walls_VomU.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_VomU.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.0000509,
+                    y: sumY / count - 0.0005412,
+                    z: walls_VomU[0].properties.baseZ + walls_VomU[0].properties.height - 18.85
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/VomU.glb")
+                    .then(geometry => {
+                        geometry.scale(32, { origin: center });
+                        geometry.rotate(0, 0, 315);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho nóc chính (NgoiChinh) - Tường: 016 017 028 029 054 055 056 057 058
+            const walls_NgoiChinh = data.features.filter(f => ["wall-016", "wall-017", "wall-028", "wall-029", "wall-054", "wall-055", "wall-056", "wall-057", "wall-058"].includes(f.properties.id));
+            if (walls_NgoiChinh.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_NgoiChinh.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.000565,
+                    y: sumY / count + 0.000028,
+                    z: walls_NgoiChinh[0].properties.baseZ + walls_NgoiChinh[0].properties.height - 26.68
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/NgoiChinh.glb")
+                    .then(geometry => {
+                        geometry.scale(37, { origin: center });
+                        geometry.rotate(0, 0, 317.3);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (SauTraiDuoi) - Tường: 025
+            const walls_SauTraiDuoi = data.features.filter(f => ["wall-025"].includes(f.properties.id));
+            if (walls_SauTraiDuoi.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_SauTraiDuoi.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.00039,
+                    y: sumY / count - 0.000019,
+                    z: walls_SauTraiDuoi[0].properties.baseZ + walls_SauTraiDuoi[0].properties.height - 13
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/SauTraiDuoi.glb")
+                    .then(geometry => {
+                        geometry.scale(26, { origin: center });
+                        geometry.rotate(0, 0, 315);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (SauPhaiDuoi) - Tường: 024
+            const walls_SauPhaiDuoi = data.features.filter(f => ["wall-024"].includes(f.properties.id));
+            if (walls_SauPhaiDuoi.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_SauPhaiDuoi.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count - 0.00035,
+                    y: sumY / count - 0.00014,
+                    z: walls_SauPhaiDuoi[0].properties.baseZ + walls_SauPhaiDuoi[0].properties.height - 13
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/SauPhaiDuoi.glb")
+                    .then(geometry => {
+                        geometry.scale(26, { origin: center });
+                        geometry.rotate(0, 0, 315);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
+
+            // Đặt ngói cho polygon (SauTamGiacTrai) - Tường: 027 031
+            const walls_SauTamGiacTrai = data.features.filter(f => ["wall-027", "wall-031"].includes(f.properties.id));
+            if (walls_SauTamGiacTrai.length > 0) {
+                let sumX = 0, sumY = 0, count = 0;
+                walls_SauTamGiacTrai.forEach(w => {
+                    w.geometry.coordinates.forEach(p => {
+                        sumX += p[0];
+                        sumY += p[1];
+                        count++;
+                    });
+                });
+                const center = new Point({
+                    x: sumX / count + 0.000399,
+                    y: sumY / count - 0.0001266,
+                    z: walls_SauTamGiacTrai[0].properties.baseZ + walls_SauTamGiacTrai[0].properties.height - 15
+                });
+
+                Mesh.createFromGLTF(center, "./3D_Models/maiNha/SauTamGiacTrai.glb")
+                    .then(geometry => {
+                        geometry.scale(22.8, { origin: center });
+                        geometry.rotate(0, 0, 318);
+                        const graphic = new Graphic({
+                            geometry,
+                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", size: 10000 }] }
+                        });
+                        graphicsLayer.add(graphic);
+                    })
+                    .catch(console.error);
+            }
 
             // Vẽ trụ tròn đỡ tượng
             const pedestal = new Graphic({
