@@ -114,3 +114,9 @@ function divideWallLine(wall, n) {
 
     return points; // mảng gồm n+1 điểm chia đều trên cạnh tường
 }
+
+function getMidPoint(p1, p2) {
+    const midX = (p1[0] + p2[0]) / 2;
+    const midY = (p1[1] + p2[1]) / 2;
+    return [midX, midY];
+}
