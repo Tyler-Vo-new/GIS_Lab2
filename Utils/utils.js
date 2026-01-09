@@ -101,8 +101,8 @@ function distanceBetweenCoords(coord1, coord2) {
     return R * c; // khoảng cách (m)
 }
 
-function divideWallLine(feature, n) {
-    const [[x1, y1], [x2, y2]] = feature.geometry.coordinates;
+function divideWallLine(wall, n) {
+    const [[x1, y1], [x2, y2]] = wall.attributes.line;
 
     const dx = (x2 - x1) / n;
     const dy = (y2 - y1) / n;

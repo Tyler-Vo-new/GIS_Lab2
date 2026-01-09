@@ -1150,6 +1150,90 @@ require([
         }
     }
 
+    function opGachTuong(graphicsLayer, wall) {
+        var brick = null;
+        for (var i = 0; i < wall.attributes.height; i++) {
+            if (i != 0) {
+                brick = createBrickGraphic(wall.attributes.polygon, wall.attributes.line[0], 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick);
+                brick = createBrickGraphic1(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick)
+            } else {
+                brick = createTrapezoidBrickOutwardSlope(wall.attributes.polygon, wall.attributes.line[0], 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+                brick = createTrapezoidBrickOutwardSlope1(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+            } 
+        }
+    }
+    function opGachTuong01(graphicsLayer, wall) {
+        var brick = null;
+        for (var i = 0; i < wall.attributes.height; i++) {
+            if (i != 0) {
+                brick = createBrickGraphic1(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick)
+            } else {
+                brick = createTrapezoidBrickOutwardSlope1(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+            }
+        }
+    }
+    function opGachTuong02(graphicsLayer, wall, startingPoint) {
+        var brick = null;
+        for (var i = 0; i < wall.attributes.height; i++) {
+            if (i != 0) {
+                brick = createBrickGraphic(wall.attributes.polygon, startingPoint, 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick);
+            } else {
+                brick = createTrapezoidBrickOutwardSlope(wall.attributes.polygon, startingPoint, 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+            }
+        }
+    }
+
+    function opGachTuong1(graphicsLayer, wall) {
+        var brick = null;
+        for (var i = 0; i < wall.attributes.height; i++) {
+            if (i != 0) {
+                brick = createBrickGraphic2(wall.attributes.polygon, wall.attributes.line[0], 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick);
+                brick = createBrickGraphic3(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick)
+            } else {
+                brick = createTrapezoidBrickOutwardSlope2(wall.attributes.polygon, wall.attributes.line[0], 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+                brick = createTrapezoidBrickOutwardSlope3(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+            } 
+        }
+    }
+
+    function opGachTuong11(graphicsLayer, wall) {
+        var brick = null;
+        for (var i = 0; i < wall.attributes.height; i++) {
+            if (i != 0) {
+                brick = createBrickGraphic3(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick)
+            } else {
+                brick = createTrapezoidBrickOutwardSlope3(wall.attributes.polygon, wall.attributes.line[1], 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+            }
+        }
+    }
+
+    function opGachTuong12(graphicsLayer, wall, startingPoint) {
+        var brick = null;
+        for (var i = 0; i < wall.attributes.height; i++) {
+            if (i != 0) {
+                brick = createBrickGraphic2(wall.attributes.polygon, startingPoint, 0.5, 1, wall.attributes.baseZ + i, 0.3);
+                graphicsLayer.add(brick);
+            } else {
+                brick = createTrapezoidBrickOutwardSlope2(wall.attributes.polygon, startingPoint, 0.5, 1, wall.attributes.baseZ + i, 0.3, 0.5);
+                graphicsLayer.add(brick);
+            }
+        }
+    }
+
     window.opGachChanThap = opGachChanThap;
     window.opGachChanThap1 = opGachChanThap1;
     window.opGachChanThap2 = opGachChanThap2;
@@ -1157,6 +1241,12 @@ require([
     window.opGachDinhThap = opGachDinhThap;
     window.opGachDinhThap1 = opGachDinhThap1;
     window.opGachDinhThap2 = opGachDinhThap2;
+    window.opGachTuong = opGachTuong;
+    window.opGachTuong01 = opGachTuong01;
+    window.opGachTuong02 = opGachTuong02;
+    window.opGachTuong1 = opGachTuong1;
+    window.opGachTuong11 = opGachTuong11;
+    window.opGachTuong12 = opGachTuong12;
     window.createTrapezoidBrickOutwardSlope = createTrapezoidBrickOutwardSlope
     window.createTrapezoidBrickOutwardSlope1 = createTrapezoidBrickOutwardSlope1
     window.createTrapezoidBrickOutwardSlope2 = createTrapezoidBrickOutwardSlope2

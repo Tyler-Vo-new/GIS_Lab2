@@ -296,7 +296,63 @@ require([
                 1);
             graphicsLayer.add(trap1);
 
+            opGachTuong(graphicsLayer, getGraphicById(graphicsLayer, "wall-028"));
+            opGachTuong(graphicsLayer, getGraphicById(graphicsLayer, "wall-026"));
+            opGachTuong(graphicsLayer, getGraphicById(graphicsLayer, "wall-032"));
+            opGachTuong(graphicsLayer, getGraphicById(graphicsLayer, "wall-044"));
             
+            opGachTuong1(graphicsLayer, getGraphicById(graphicsLayer, "wall-029"));
+            opGachTuong1(graphicsLayer, getGraphicById(graphicsLayer, "wall-027"));
+            opGachTuong1(graphicsLayer, getGraphicById(graphicsLayer, "wall-035"));
+            
+            const gachTuong = ["wall-033", "wall-034", "wall-038", "wall-039", "wall-040", "wall-045", "wall-046", "wall-047", "wall-048", "wall-049",  "wall-051", "wall-054", "wall-055", "wall-056", "wall-057"]
+            gachTuong.forEach(wallName => {
+                opGachTuong01(graphicsLayer, getGraphicById(graphicsLayer, wallName));
+            })
+
+            const gachTuong1 = ["wall-036", "wall-037", "wall-041", "wall-042", "wall-043", "wall-050", "wall-052"]
+            gachTuong1.forEach(wallName => {
+                opGachTuong11(graphicsLayer, getGraphicById(graphicsLayer, wallName));
+            })
+
+            const hangGach = ["wall-011", "wall-012", "wall-017"]
+            hangGach.forEach(wallName => {
+                const w = getGraphicById(graphicsLayer, wallName);
+                const points = divideWallLine(w, 6);
+                console.log(points);
+                points.forEach(point => {
+                    opGachTuong02(graphicsLayer, w, point)
+                })
+            });
+            const hangGach01 = ["wall-028", "wall-024"]
+            hangGach01.forEach(wallName => {
+                const w = getGraphicById(graphicsLayer, wallName);
+                const points = divideWallLine(w, 2);
+                console.log(points);
+                points.forEach(point => {
+                    opGachTuong02(graphicsLayer, w, point)
+                })
+            });
+
+            const hangGach1 = ["wall-014", "wall-015", "wall-016"]
+            hangGach1.forEach(wallName => {
+                const w = getGraphicById(graphicsLayer, wallName);
+                const points = divideWallLine(w, 6);
+                console.log(points);
+                points.forEach(point => {
+                    opGachTuong12(graphicsLayer, w, point)
+                })
+            })
+            const hangGach11 = ["wall-029", "wall-025"]
+            hangGach11.forEach(wallName => {
+                const w = getGraphicById(graphicsLayer, wallName);
+                const points = divideWallLine(w, 2);
+                console.log(points);
+                points.forEach(point => {
+                    opGachTuong12(graphicsLayer, w, point)
+                })
+            })
+
             // Tìm kiếm các điểm 
             const wall = getGraphicById(graphicsLayer, "wall-001");
             const wall_line = wall.attributes.line
