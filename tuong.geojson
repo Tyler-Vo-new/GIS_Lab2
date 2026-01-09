@@ -1,0 +1,1594 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-001",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921474573036,
+                        10.779447264138202
+                    ],
+                    [
+                        106.6992656680461,
+                        10.779502571187221
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-002",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921474573036,
+                        10.779447264138202
+                    ],
+                    [
+                        106.69916103232897,
+                        10.779497312696945
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-003",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69916103232897,
+                        10.779497312696945
+                    ],
+                    [
+                        106.69921349720597,
+                        10.779551356448232
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-004",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921349720597,
+                        10.779551356448232
+                    ],
+                    [
+                        106.6992656680461,
+                        10.779502571187221
+                    ]
+                ]
+            }
+        },
+        {  
+            "type": "Feature",
+            "properties": {
+                "id": "wall-005",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6992656680461,
+                        10.779502571187221
+                    ],
+                    [
+                        106.69931938721504,
+                        10.779558056150924 
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-006",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931938721504,
+                        10.779558056150924
+                    ],
+                    [
+                        106.69937034193144,
+                        10.779611928282318
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-007",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69937034193144,
+                        10.779611928282318
+                    ],
+                    [
+                        106.69931670188687,
+                        10.779661976261488
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-008",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931670188687,
+                        10.779661976261488
+                    ],
+                    [
+                        106.69926576435819,
+                        10.779606952871548
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-009",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69926576435819,
+                        10.779606952871548
+                    ],
+                    [
+                        106.69931938721504,
+                        10.779558056150924
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-010",
+                "buildingId": "b002",
+                "buildingName": "Gian nhà phải",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931670188687,
+                        10.779661976261488
+                    ],
+                    [
+                        
+                        106.69935401684597,
+                        10.779701573075865
+                        
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-011",
+                "buildingId": "b002",
+                "buildingName": "Gian nhà phải",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69935401684597,
+                        10.779701573075865
+                    ],
+                    [
+                        106.69912082845771,
+                        10.779917445409009
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-012",
+                "buildingId": "b002",
+                "buildingName": "Gian nhà phải",
+                "baseZ": 20,
+                "height": 4,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931670188687,
+                        10.779661976261488
+                    ],
+                    [
+                        106.69908242438987,
+                        10.779876707579765
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-013",
+                "buildingId": "b003",
+                "buildingName": "Gian nhà trái",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69916103232897,
+                        10.779497312696945
+                    ],
+                    [
+                        106.69912358716093,
+                        10.779457834703612
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-014",
+                "buildingId": "b003",
+                "buildingName": "Gian nhà trái",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69912358716093,
+                        10.779457834703612
+                    ],
+                    [
+                        106.69889111200396,
+                        10.779674447923936
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-015",
+                "buildingId": "b003",
+                "buildingName": "Gian nhà trái",
+                "baseZ": 20,
+                "height": 4,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69916103232897,
+                        10.779497312696945
+                    ],
+                    [
+                        106.6989285571415,
+                        10.779713925917266
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-016",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6991922366213,
+                        10.779530211041298
+                    ],
+                    [
+                        106.6989578113994,
+                        10.779744786612222
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-017",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69928577319813,
+                        10.779628827702915
+                    ],
+                    [
+                        106.69904956495961,
+                        10.779841508020684
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-018",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69913326677973,
+                        10.779930644354117
+                    ],
+                    [
+                        106.69904956495961,
+                        10.779841508020684
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-019",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69887863028067,
+                        10.779661288586123
+                    ],
+                    [
+                        106.6989578113994,
+                        10.779744786612222
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-020",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69913326677973,
+                        10.779930644354117
+                    ],
+                    [
+                        106.69903249634599,
+                        10.780022285493851
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-021",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69887863028067,
+                        10.779661288586123
+                    ],
+                    [
+                        106.69877816233172,
+                        10.779753249573128
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-022",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69903249634599,
+                        10.780022285493851
+                    ],
+                    [
+                        106.69893521722462,
+                        10.779925803347599
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-023",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 9,
+                "height": 26,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69877816233172,
+                        10.779753249573128
+                    ],
+                    [
+                        106.69887328791752,
+                        10.779851782053395
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-024",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 15,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69902005802834,
+                        10.780009086548741
+                    ],
+                    [
+                        106.69893944166525,
+                        10.780082399463133
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-025",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 15,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69879064405066,
+                        10.779766408910941
+                    ],
+                    [
+                        106.69871026966831,
+                        10.779839977703137
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-026",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 15,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69893944166525,
+                        10.780082399463133
+                    ],
+                    [
+                        106.69891912288158,
+                        10.78010055136879
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-027",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 15,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69871026966831,
+                        10.779839977703137
+                    ],
+                    [
+                        106.69869001071928,
+                        10.779858194015993
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-028",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69894751459381,
+                        10.77993177195142
+                    ],
+                    [
+                        106.6988454641975,
+                        10.780022035882157
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-029",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69885651665798,
+                        10.77983586815916
+                    ],
+                    [
+                        106.69875522188595,
+                        10.7799269497061
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-030",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 15,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69891912288158,
+                        10.78010055136879
+                    ],
+                    [
+                        106.69887996003914,
+                        10.780059005005953
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-031",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 15,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69869001071928,
+                        10.779858194015993
+                    ],
+                    [
+                        106.69872762113481,
+                        10.779897847845989
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-032",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69890656389542,
+                        10.780087463146415
+                    ],
+                    [
+                        106.69888657887164,
+                        10.780105969169377
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-033",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69888657887164,
+                        10.780105969169377
+                    ],
+                    [
+                        106.69885913479239,
+                        10.780104933252014
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-034",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69885913479239,
+                        10.780104933252014
+                    ],
+                    [
+                        106.69884046092169,
+                        10.78008514973984
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-035",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69870261070842,
+                        10.77987124414348
+                    ],
+                    [
+                        106.698682683867,
+                        10.779889810598865
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-036",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.698682683867,
+                        10.779889810598865
+                    ],
+                    [
+                        106.69868171386021,
+                        10.77991677341434
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-037",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69868171386021,
+                        10.77991677341434
+                    ],
+                    [
+                        106.69870042330508,
+                        10.779936524455259
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-038",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69884046092169,
+                        10.78008514973984
+                    ],
+                    [
+                        106.69881338921465,
+                        10.78010937387275
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-039",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69881338921465,
+                        10.78010937387275
+                    ],
+                    [
+                        106.69877682639932,
+                        10.780107379987172
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-040",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69877682639932,
+                        10.780107379987172
+                    ],
+                    [
+                        106.6987523811633,
+                        10.780080595985355
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-041",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69870042330508,
+                        10.779936524455259
+                    ],
+                    [
+                        106.69867383818801,
+                        10.77996126315817
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-042",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69867383818801,
+                        10.77996126315817
+                    ],
+                    [
+                        106.6986725216394,
+                        10.779997212765922
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-043",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6986725216394,
+                        10.779997212765922
+                    ],
+                    [
+                        106.69869745026395,
+                        10.780023563299446
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-044",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 20,
+                "height": 4,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69887996003914,
+                        10.780059005005953
+                    ],
+                    [
+                        106.6988183778885,
+                        10.780088046040616
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-045",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 20,
+                "height": 4,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6988183778885,
+                        10.780088046040616
+                    ],
+                    [
+                        106.69875043445407,
+                        10.780076239098875
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-046",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 20,
+                "height": 4,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69875043445407,
+                        10.780076239098875
+                    ],
+                    [
+                        106.69870192812932,
+                        10.78002659492712
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-047",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 20,
+                "height": 4,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69870192812932,
+                        10.78002659492712
+                    ],
+                    [
+                        106.69869289386482,
+                        10.779958411222736
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-048",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 20,
+                "height": 4,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69869289386482,
+                        10.779958411222736
+                    ],
+                    [
+                        106.69872597566949,
+                        10.779899024871959
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-049",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 11,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69875914305482,
+                        10.780074533450271
+                    ],
+                    [
+                        106.69872533359379,
+                        10.7801048461235
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-050",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 11,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69870410061061,
+                        10.780017382842814
+                    ],
+                    [
+                        106.69867084887413,
+                        10.78004828512386
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-051",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 11,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69872533359379,
+                        10.7801048461235
+                    ],
+                    [
+                        106.69868876881434,
+                        10.780102887314941
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-052",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 11,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69867084887413,
+                        10.78004828512386
+                    ],
+                    [
+                        106.6986695087036,
+                        10.78008423388931
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-053",
+                "buildingId": "b004",
+                "buildingName": "Vòng ngoài",
+                "baseZ": 9,
+                "height": 11,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6986695087036,
+                        10.78008423388931
+                    ],
+                    [
+                        106.69868876881434,
+                        10.780102887314941
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-054",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6988454641975,
+                        10.780022035882157
+                    ],
+                    [
+                        106.69880909708756,
+                        10.780039273584334
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-055",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69880909708756,
+                        10.780039273584334
+                    ],
+                    [
+                        106.6987689227129,
+                        10.780032373996777
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-056",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6987689227129,
+                        10.780032373996777
+                    ],
+                    [
+                        106.69874019004286,
+                        10.780003086962049
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-057",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69874019004286,
+                        10.780003086962049
+                    ],
+                    [
+                        106.69873476606719,
+                        10.77996279198493
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-058",
+                "buildingId": "b001",
+                "buildingName": "Chính điện",
+                "baseZ": 26,
+                "height": 9,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69873476606719,
+                        10.77996279198493
+                    ],
+                    [
+                        106.69875522188595,
+                        10.7799269497061
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-059",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921447876128,
+                        10.779453617892038
+                    ],
+                    [
+                        106.69925920016144,
+                        10.779502308929043
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-060",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921447876128,
+                        10.779453617892038
+                    ],
+                    [
+                        106.69916750168703,
+                        10.779497537160793
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-061",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69916750168703,
+                        10.779497537160793
+                    ],
+                    [
+                        106.69921359315644,
+                        10.77954499798273
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-062",
+                "buildingId": "tower-01",
+                "buildingName": "Tháp chuông bên trái",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69921359315644,
+                        10.77954499798273
+                    ],
+                    [
+                        106.69925920016144,
+                        10.779502308929043
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-063",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.699319207125,
+                        10.779564412853624
+                    ],
+                    [
+                        106.69936387104262,
+                        10.779611751370162
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-064",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69936387104262,
+                        10.779611751370162
+                    ],
+                    [
+                        106.69931692601043,
+                        10.779655620909901
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-065",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.69931692601043,
+                        10.779655620909901
+                    ],
+                    [
+                        106.6992722329454,
+                        10.779607197899278
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "wall-066",
+                "buildingId": "tower-02",
+                "buildingName": "Tháp chuông bên phải",
+                "baseZ": 35,
+                "height": 12,
+                "material": "Gạch"
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        106.6992722329454,
+                        10.779607197899278
+                    ],
+                    [
+                        106.699319207125,
+                        10.779564412853624
+                    ]
+                ]
+            }
+        }
+
+        
+        
+    ]
+}

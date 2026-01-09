@@ -1,0 +1,430 @@
+function buildWallMeshData(line, baseZ, height, wallId) {
+        const [[lon1, lat1], [lon2, lat2]] = line;
+
+        const z1 = baseZ;
+        const z2 = baseZ + height;
+
+        const positions = [
+            lon1, lat1, z1,
+            lon2, lat2, z1,
+            lon2, lat2, z2,
+            lon1, lat1, z2
+        ];
+
+        const uvs = [
+            0, 0,
+            1, 0,
+            1, 1,
+            0, 1
+        ];
+
+        const faces = [
+            0, 1, 2,
+            0, 2, 3
+        ];
+
+        // metadata để gắn object sau này
+        const wallMeta = {
+            id: wallId,
+            p0: [lon1, lat1],
+            p1: [lon2, lat2],
+            baseZ,
+            height
+        };
+
+        return { positions, uvs, faces, wallMeta };
+    }
+
+    function buildHighlightWallMesh(wall) {
+        const { p0, p1, baseZ, height } = wall;
+
+        return new Mesh({
+            spatialReference: { wkid: 4326 },
+            vertexAttributes: {
+                position: [
+                    p0[0], p0[1], baseZ,
+                    p1[0], p1[1], baseZ,
+                    p1[0], p1[1], baseZ + height,
+                    p0[0], p0[1], baseZ + height
+                ]
+            },
+            components: [{
+                faces: [
+                    0, 1, 2,
+                    0, 2, 3
+                ]
+            }]
+        });
+    }
+
+
+    const highlightLayer = new GraphicsLayer();
+    map.add(highlightLayer);
+    
+    // Tạo một GeoJSONLayer từ file hoặc URL
+    fetch("./tuong.geojson")
+        .then(res => res.json())
+        .then(data => {
+
+            const wallsByBuilding = {};
+
+            data.features.forEach(f => {
+                const bId = f.properties.buildingId;
+                if (!wallsByBuilding[bId]) wallsByBuilding[bId] = [];
+                wallsByBuilding[bId].push(f);
+            });
+
+            Object.values(wallsByBuilding).forEach(walls => {
+
+                let positions = [];
+                let uvs = [];
+                let faces = [];
+                let vertexOffset = 0;
+                let faceOffset = 0;
+
+                const wallIndex = {};
+
+                walls.forEach(f => {
+                    const { baseZ, height, id } = f.properties;
+                    const line = f.geometry.coordinates;
+
+                    const wall = buildWallMeshData(line, baseZ, height, id);
+
+                    positions.push(...wall.positions);
+                    uvs.push(...wall.uvs);
+
+                    wall.faces.forEach(i => faces.push(i + vertexOffset));
+
+                    // 🔑 map faceIndex → wall
+                    wallIndex[id] = {
+                        ...wall.wallMeta,
+                        faceStart: faceOffset,
+                        faceEnd: faceOffset + 1
+                    };
+
+                    vertexOffset += 4;
+                    faceOffset += 2;
+                });
+
+                const mesh = new Mesh({
+                    spatialReference: { wkid: 4326 },
+                    vertexAttributes: {
+                        position: positions,
+                        uv: uvs
+                    },
+                    components: [{
+                        faces
+                    }]
+                });
+
+                const buildingGraphic = new Graphic({
+                    geometry: mesh,
+                    symbol: {
+                        type: "mesh-3d",
+                        symbolLayers: [{
+                            type: "fill",
+                            material: {
+                                texture: {
+                                    url: "./Images/Walls/1_Tuong_gach.jpg"
+                                }
+                            }
+                        }]
+                    },
+                    attributes: {
+                        buildingId: walls[0].properties.buildingId,
+                        buildingName: walls[0].properties.buildingName
+                    }
+                });
+
+                // 🔥 gắn index wall vào GRAPHIC
+                buildingGraphic.wallIndex = wallIndex;
+
+                graphicsLayer.add(buildingGraphic);
+            });
+        });
+
+    view.on("click", async (event) => {
+
+        const response = await view.hitTest(event);
+
+        const hit = response.results.find(r =>
+            r.graphic?.wallIndex &&
+            typeof r.faceIndex === "number"
+        );
+
+        if (!hit) return;
+
+        const { graphic, faceIndex } = hit;
+        const wallIndex = graphic.wallIndex;
+
+        let pickedWall = null;
+
+        for (const id in wallIndex) {
+            const w = wallIndex[id];
+            if (faceIndex >= w.faceStart && faceIndex <= w.faceEnd) {
+                pickedWall = w;
+                break;
+            }
+        }
+
+        if (!pickedWall) return;
+
+        // 🧹 clear highlight cũ
+        highlightLayer.removeAll();
+
+        // 🧱 tạo highlight overlay
+        const highlightGraphic = new Graphic({
+            geometry: buildHighlightWallMesh(pickedWall),
+            symbol: {
+                type: "mesh-3d",
+                symbolLayers: [{
+                    type: "fill",
+                    material: {
+                        color: [255, 215, 0, 0.6]
+                    },
+                    edges: {
+                        type: "solid",
+                        color: "yellow",
+                        size: 2
+                    }
+                }]
+            }
+        });
+
+        highlightLayer.add(highlightGraphic);
+
+        // 📋 popup wall
+        view.popup.open({
+            title: "Thông tin tường",
+            content: `
+            <b>ID:</b> ${pickedWall.id}<br>
+            <b>Chiều cao:</b> ${pickedWall.height} m<br>
+            <b>Base Z:</b> ${pickedWall.baseZ}
+        `,
+            location: event.mapPoint
+        });
+    });
+
+    // ==================================================================================
+    // XÂY DỰNG THÁP CHUÔNG (TOWER) CHI TIẾT
+    // ==================================================================================
+    function buildTowers() {
+        const towers = [
+            {
+                id: "tower-01",
+                name: "Tháp chuông trái",
+                // Footprint coordinates (Polygon ring)
+                ring: [
+                    [106.69921474573036, 10.779447264138202],
+                    [106.6992656680461, 10.779502571187221],
+                    [106.69921349720597, 10.779551356448232],
+                    [106.69916103232897, 10.779497312696945]
+                ]
+            },
+            {
+                id: "tower-02",
+                name: "Tháp chuông phải",
+                ring: [
+                    [106.69931938721504, 10.779558056150924],
+                    [106.69937034193144, 10.779611928282318],
+                    [106.69931670188687, 10.779661976261488],
+                    [106.69926576435819, 10.779606952871548]
+                ]
+            }
+        ];
+
+        const levels = [
+            { h: 9.5, name: "Tầng đáy" },
+            { h: 5.4, name: "Tầng 1" },
+            { h: 8.34, name: "Tầng 2" },
+            { h: 11.18, name: "Tầng chuông", targetWidth: 6.34 } // Width in meters
+        ];
+
+        const baseZStart = 9; // Bắt đầu từ độ cao 9m
+
+        towers.forEach(tower => {
+            let currentZ = baseZStart;
+            
+            // Tính tâm của tháp để scale (thu nhỏ) tầng chuông
+            const center = tower.ring.reduce((acc, p) => [acc[0] + p[0], acc[1] + p[1]], [0, 0])
+                                    .map(v => v / 4);
+
+            // 1. Xây các tầng tường
+            levels.forEach((level, idx) => {
+                let ring = tower.ring;
+
+                // Nếu là tầng chuông, cần thu nhỏ về rộng 6.34m
+                // Chiều rộng hiện tại khoảng 7.5m. Scale factor ~ 6.34 / 7.5 = 0.845
+                if (level.targetWidth) {
+                    const currentWidthApprox = 7.5; 
+                    const scale = level.targetWidth / currentWidthApprox;
+                    ring = ring.map(p => [
+                        center[0] + (p[0] - center[0]) * scale,
+                        center[1] + (p[1] - center[1]) * scale
+                    ]);
+                }
+
+                // Tạo tường cho 4 cạnh của tầng này
+                let positions = [];
+                let uvs = [];
+                let faces = [];
+                let vertexOffset = 0;
+
+                for (let i = 0; i < ring.length; i++) {
+                    const p1 = ring[i];
+                    const p2 = ring[(i + 1) % ring.length];
+                    const line = [p1, p2];
+                    
+                    // Gọi hàm buildWallMeshData có sẵn
+                    const wallData = buildWallMeshData(line, currentZ, level.h, `${tower.id}_L${idx}_W${i}`);
+                    
+                    positions.push(...wallData.positions);
+                    uvs.push(...wallData.uvs);
+                    wallData.faces.forEach(f => faces.push(f + vertexOffset));
+                    vertexOffset += 4;
+                }
+
+                const mesh = new Mesh({
+                    spatialReference: { wkid: 4326 },
+                    vertexAttributes: { position: positions, uv: uvs },
+                    components: [{ faces }]
+                });
+
+                const graphic = new Graphic({
+                    geometry: mesh,
+                    symbol: {
+                        type: "mesh-3d",
+                        symbolLayers: [{
+                            type: "fill",
+                            material: { texture: { url: "./Images/Walls/1_Tuong_gach.jpg" } }
+                        }]
+                    },
+                    attributes: {
+                        buildingId: tower.id,
+                        buildingName: tower.name,
+                        level: level.name
+                    }
+                });
+                graphicsLayer.add(graphic);
+
+                currentZ += level.h;
+            });
+
+            // 2. Thêm Nóc tháp (Roof) - GLB Model
+            // currentZ đang là đỉnh của tầng chuông
+            const roofGraphic = new Graphic({
+                geometry: {
+                    type: "point",
+                    x: center[0],
+                    y: center[1],
+                    z: currentZ
+                },
+                symbol: {
+                    type: "point-3d",
+                    symbolLayers: [{
+                        type: "object",
+                        resource: { href: "./3D_Models/maiNha/ngoiMaiTrang.glb" },
+                        height: 15, // Cao 15m
+                        anchor: "bottom"
+                    }]
+                }
+            });
+            graphicsLayer.add(roofGraphic);
+
+            // 3. Thêm Thập tự giá (Cross)
+            // Đặt trên đỉnh mái: currentZ + 15m
+            const crossBaseZ = currentZ + 15;
+            const crossHeight = 2.3;
+            const crossWidth = 2.57;
+            
+            // Dùng Icon hoặc Object đơn giản cho Cross nếu không có model. 
+            // Ở đây dùng Cylinder/Box primitive để tạo hình chữ thập
+            const crossSymbol = {
+                type: "point-3d",
+                symbolLayers: [{
+                    type: "icon", // Dùng icon tạm hoặc model nếu có. 
+                    // Để đơn giản và đẹp, ta dùng model primitive nếu API hỗ trợ hoặc 1 box cao.
+                    // Ở đây dùng Box đơn giản đại diện
+                    size: crossHeight,
+                    material: { color: "white" },
+                    outline: { color: "black", size: 1 }
+                }]
+            };
+            // Lưu ý: Để tạo hình chữ thập chính xác bằng code cần tạo Mesh phức tạp hơn.
+            // Ở đây ta đặt 1 khối đại diện hoặc cần load model thập tự giá nếu có.
+            // Nếu muốn chính xác kích thước 2.3m x 2.57m, ta có thể vẽ 2 bức tường nhỏ cắt nhau (Mesh).
+            
+            // Tạo Mesh cho thập tự giá (2 thanh box cắt nhau)
+            const thickness = 0.2; // độ dày thanh
+            // Thanh dọc
+            const vBar = buildWallMeshData(
+                [[center[0], center[1]], [center[0], center[1]]], // Điểm ảo, ta cần tạo box 3D chuẩn hơn
+                crossBaseZ, crossHeight, "cross-v"
+            );
+            // Do hàm buildWallMeshData chỉ tạo tường rỗng, ta dùng Box symbol của ArcGIS cho nhanh
+            const crossV = new Graphic({
+                geometry: { type: "point", x: center[0], y: center[1], z: crossBaseZ + crossHeight/2 },
+                symbol: {
+                    type: "point-3d",
+                    symbolLayers: [{
+                        type: "object",
+                        resource: { primitive: "cube" },
+                        width: thickness, depth: thickness, height: crossHeight,
+                        material: { color: "#D3D3D3" }
+                    }]
+                }
+            });
+            const crossH = new Graphic({
+                geometry: { type: "point", x: center[0], y: center[1], z: crossBaseZ + crossHeight*0.7 }, // Thanh ngang nằm ở 70% chiều cao
+                symbol: {
+                    type: "point-3d",
+                    symbolLayers: [{
+                        type: "object",
+                        resource: { primitive: "cube" },
+                        width: crossWidth, depth: thickness, height: thickness,
+                        material: { color: "#D3D3D3" }
+                    }]
+                }
+            });
+            
+            graphicsLayer.add(crossV);
+            graphicsLayer.add(crossH);
+        });
+    }
+
+    // Gọi hàm xây tháp
+    buildTowers();
+
+
+
+
+
+
+
+// Polygon 3D: bức tường
+    const wallPolygon = {
+        type: "polygon",
+        rings: [
+            [106.69886007437611, 10.77964233843145, 0],    // góc dưới trái
+            [106.69909093191316, 10.779427922622276, 0],    // góc dưới phải
+            [106.69909093191316, 10.779427922622276, 30],   // góc trên phải (cao 30m)
+            [106.69886007437611, 10.77964233843145, 30],   // góc trên trái (cao 30m)
+            [106.69886007437611, 10.77964233843145, 0]     // đóng polygon
+        ]
+    };
+
+    const wallGraphic = new Graphic({
+        geometry: wallPolygon,
+        symbol: {
+            type: "simple-fill",
+            color: [200, 100, 50, 0.7],
+            outline: { color: [255, 255, 255], width: 1 }
+        },
+        attributes: {
+            id: "wall-001",  
+            Name: "Bức tường 001"
+        },
+        popupTemplate: { title: "{Name}" }
+    });
+
+    graphicsLayer.add(wallGraphic);
