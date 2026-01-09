@@ -231,7 +231,7 @@ require([
         const frameThickness = isMainDoor ? 0.30 : 0.18;
         
         // Khoảng cách giữa 2 cửa: lớn hơn cho cửa chính và cửa sổ tầng trên (để viền không chồng)
-        const gap = isMainDoor ? 1.0 : (isUpperBellTowerWindow ? 0.8 : 0.3);
+        const gap = isMainDoor ? 1.0 : (isUpperBellTowerWindow ? 0.8 : 0.5);
         
         // Điều chỉnh depth và normal theo wall
         let frameDepth;
@@ -266,8 +266,11 @@ require([
         } else if (wallId === "wall-025") {
             // wall-025: cửa sổ ở vị trí cao, frameDepth âm (ngược hướng wall-024)
             frameDepth = -0.3;
+        } else if (wallId === "wall-011") {
+            // wall-011: tăng frameDepth để nhô ra đều đặn
+            frameDepth = 0.5;
         } else {
-            // wall-001, 006, 007, 011: hướng thuận
+            // wall-001, 006, 007: hướng thuận
             frameDepth = 0.3;
         }
 
@@ -568,7 +571,7 @@ require([
         const wallBL = wallPolygon[0];
 
         const frameThickness = 0.20; // Tăng thêm 10% (0.18 -> 0.20)
-        const gap = 0.3;
+        const gap = 0.5;
         
         // Điều chỉnh frameDepth theo wall
         let frameDepth;
@@ -576,9 +579,8 @@ require([
             // wall-016, wall-029: cùng hướng wall-014 (frameDepth âm)
             frameDepth = -0.3;
         } else if (wallId === "wall-017" || wallId === "wall-028") {
-            // wall-017, wall-028: đảo ngược normal và frameDepth âm
-            normalOrientation = orientation - 90;
-            frameDepth = -0.3;
+            // wall-017, wall-028: giữ nguyên normal orientation, tăng frameDepth để nhô ra rõ hơn
+            frameDepth = 0.5;
         } else if (wallId === "wall-018" || wallId === "wall-023") {
             // wall-018, wall-023: frameDepth âm, không đảo normal
             frameDepth = -0.3;

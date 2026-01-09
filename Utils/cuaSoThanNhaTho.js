@@ -24,14 +24,13 @@
         
         const tripletCount = 6; // 6 bộ 3 cửa
         
-        // Tính khoảng cách giữa các bộ để giãn cách đều
-        // Chia tường thành 7 phần (6 bộ + 2 phần lề 2 đầu)
-        const spacing = wallLength / (tripletCount + 1);
-        // console.log(`Spacing between triplets: ${spacing}m`);
+        // Chia tường thành 6 phần bằng nhau, mỗi phần chứa 1 bộ 3 cửa
+        const sectionWidth = wallLength / tripletCount;
+        // console.log(`Section width: ${sectionWidth}m`);
         
-        // Tạo từng bộ 3 cửa tại các vị trí đều nhau
+        // Đặt mỗi bộ 3 cửa ở giữa mỗi phần
         for (let i = 1; i <= tripletCount; i++) {
-            const position = spacing * i;
+            const position = (i - 0.5) * sectionWidth;
             // console.log(`Creating triplet ${i} at position ${position}m`);
             
             // Sử dụng createWindowTriplet từ cuaSoThapChuong.js
@@ -69,14 +68,13 @@
         
         const windowCount = 6; // 6 cặp cửa sổ
         
-        // Tính khoảng cách giữa các cặp cửa sổ để giãn cách đều
-        // Chia tường thành 7 phần (6 cửa sổ + 2 phần lề 2 đầu)
-        const spacing = wallLength / (windowCount + 1);
-        // console.log(`Spacing between windows: ${spacing}m`);
+        // Chia tường thành 6 phần bằng nhau, mỗi phần chứa 1 cặp cửa sổ
+        const sectionWidth = wallLength / windowCount;
+        // console.log(`Section width: ${sectionWidth}m`);
         
-        // Tạo từng cặp cửa sổ tại các vị trí đều nhau
+        // Đặt mỗi cặp cửa sổ ở giữa mỗi phần
         for (let i = 1; i <= windowCount; i++) {
-            const position = spacing * i;
+            const position = (i - 0.5) * sectionWidth;
             // console.log(`Creating window pair ${i} at position ${position}m`);
             
             // Sử dụng createWindowPair từ cuaSoThapChuong.js
@@ -159,7 +157,7 @@
         // console.log("addNaveTripletWindows called with walls:", walls);
         
         // Thông số cửa sổ nhỏ hơn wall-005
-        const windowWidth = 1.2; // Nhỏ hơn 1.44m
+        const windowWidth = 0.95; // Giảm để vừa với 6 phần tường (3*0.95 + 2*0.5 = 3.85m)
         const wallHeight = 9; // Wall-016 và wall-017 có height = 9m
         const wallBaseZ = 26; // Wall-016 và wall-017 có baseZ = 26
         
