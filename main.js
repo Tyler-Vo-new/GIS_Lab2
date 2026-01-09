@@ -138,6 +138,392 @@ require([
             datNgoiTretPhai("wall-012")
             
 
+// --- Gắn các linh kiện (Cửa sổ và Đồng hồ) lên tường ---
+                const componentsToAttach = [
+                    {
+                        model: "./3D_Models/smallRoundWindow.glb",
+                        scale: 0.3,
+                        targets: [
+                           { ids: ["wall-049", "wall-053"], qty: 1 },
+                           {
+                           ids: ["wall-001"],
+                           qty: 1,
+                           adjustments: {
+                           windowOverrides: {
+                           0: { heightFactor: 0.75 }
+                           }
+                           }},
+                           {
+                           ids: ["wall-006"],
+                           qty: 1,
+                           adjustments: {
+                           windowOverrides: {
+                           0: { heightFactor: 0.75 }
+                            }
+                           }}
+                           ,
+                           {
+                           ids: ["wall-007"],
+                           qty: 1,
+                           adjustments: { offsetDist: 0.1,
+                           windowOverrides: {
+                           0: { heightFactor: 0.75 }
+                           }
+                           }}
+                           ,
+                           {
+                           ids: ["wall-002"],
+                           qty: 1,
+                           adjustments: { offsetDist: -0.5,
+                           windowOverrides: {
+                           0: { heightFactor: 0.75 }
+                           }
+                           }}
+                           ,
+ {
+                                                         ids: ["wall-051"],
+                                                         qty: 1,
+                                                         adjustments: { offsetDir: 90, offsetDist: 0.1,
+                                                         headingRotation: 90,
+                                                         windowOverrides: {
+                                                         0: { heightFactor: 0.6 },
+
+                                                         }
+                                                         }
+                                                         }
+                           ,
+{
+                                                        ids: ["wall-052"],
+                                                        qty: 1,
+                                                        adjustments: { offsetDir: 90, offsetDist: -0.2,
+                                                        headingRotation: -90,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.6 },
+
+                                                        }
+                                                        }
+                                                        }
+                           ,
+{
+                                                        ids: ["wall-050"],
+                                                        qty: 1,
+                                                        adjustments: { offsetDir: 90, offsetDist: -0.2,
+                                                        headingRotation: 0,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.6 },
+
+                                                        }
+                                                        }
+                                                        }
+                           ,
+                            {
+                            ids: ["wall-012"],
+                            qty: 6,
+                            adjustments: { offsetDir: -20, offsetDist: -0.9,
+                            windowOverrides: {
+                             0: { heightFactor: 0.2 },
+                             1: { heightFactor: 0.2 },
+                             2: { heightFactor: 0.2 },
+                             3: { heightFactor: 0.2 },
+                             4: { heightFactor: 0.2 },
+                             5: { heightFactor: 0.2 },
+                            }
+                             }
+                            },
+                            {
+                            ids: ["wall-015"],
+                            qty: 6,
+                            adjustments: { offsetDir: -20, offsetDist: 0.5,
+                             windowOverrides: {
+                              0: { heightFactor: 0.2 },
+                              1: { heightFactor: 0.2 },
+                              2: { heightFactor: 0.2 },
+                              3: { heightFactor: 0.2 },
+                              4: { heightFactor: 0.2 },
+                              5: { heightFactor: 0.2 },
+                              }
+                             }
+                            },
+
+                            {
+                                                        ids: ["wall-027"],
+                                                        qty: 1,
+                                                        adjustments: { offsetDir: -20, offsetDist: 0.2,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.4 },
+
+
+                                                        }
+                                                        }
+                                                        }
+                            ,
+{
+                                                        ids: ["wall-027"],
+                                                        qty: 1,
+                                                        adjustments: { offsetDir: -20, offsetDist: 0.2,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.75 },
+
+
+                                                        }
+                                                        }
+                                                        }
+                            ,
+ {
+                                                        ids: ["wall-026"],
+                                                        qty: 1,
+                                                        adjustments: { offsetDir: 90, offsetDist: 0.2,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.4 },
+
+
+                                                        }
+                                                        }
+                                                        }
+                            ,
+{
+                                                        ids: ["wall-026"],
+                                                        qty: 1,
+                                                        adjustments: { offsetDir: 90, offsetDist: 0.2,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.75 },
+
+
+                                                        }
+                                                        }
+                                                        }
+                            ,
+                            {
+                            ids: ["wall-021"],
+                            qty: 2,
+                            adjustments: { offsetDir: -20, offsetDist: 0.2,
+                            windowOverrides: {
+                            0: { heightFactor: 0.4 },
+                            1: { heightFactor: 0.4 },
+                            }
+                            }
+                            },
+                            {
+                            ids: ["wall-020"],
+                            qty: 2,
+                            adjustments: { offsetDir: -20, offsetDist: -0.6,
+                            windowOverrides: {
+                            0: { heightFactor: 0.4 },
+                            1: { heightFactor: 0.4 },
+                            }
+                            }
+                            }
+                            ,
+                            {
+                            ids: ["wall-044"],
+                            qty: 3,
+                            adjustments: { offsetDir: 90, offsetDist: 0.1,
+                            headingRotation: 45,
+                            windowOverrides: {
+                            0: { heightFactor: 0.3 },
+                            1: { heightFactor: 0.3 },
+                            2: { heightFactor: 0.3 },
+                            }
+                            }
+                            },
+                                                        {
+                                                        ids: ["wall-045"],
+                                                        qty: 3,
+                                                        adjustments: { offsetDir: 90, offsetDist: 0.1,
+                                                        headingRotation: 110,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.3 },
+                                                        1: { heightFactor: 0.3 },
+                                                        2: { heightFactor: 0.3 },
+                                                        }
+                                                        }
+                                                        },
+{
+                                                        ids: ["wall-047"],
+                                                        qty: 3,
+                                                        adjustments: { offsetDir: 90, offsetDist: 0.1,
+                                                        headingRotation: 75,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.3 },
+                                                        1: { heightFactor: 0.3 },
+                                                        2: { heightFactor: 0.3 },
+                                                        }
+                                                        }
+                                                        },
+{
+                                                        ids: ["wall-048"],
+                                                        qty: 3,
+                                                        adjustments: { offsetDir: 90, offsetDist: 0.1,
+                                                        headingRotation: 150,
+                                                        windowOverrides: {
+                                                        0: { heightFactor: 0.3 },
+                                                        1: { heightFactor: 0.3 },
+                                                        2: { heightFactor: 0.3 },
+                                                        }
+                                                        }
+                                                        }
+                        ]
+                    },
+                    {
+                        model: "./3D_Models/roseWindow.glb",
+                        scale: 0.1,
+                        targets: [
+                                                   {ids: ["wall-005"],
+                                                   qty: 1,
+                                                   adjustments: { lineOffset: -3.5, offsetDir: 90, offsetDist: -1,
+                                                   headingRotation: 180,
+                                                   windowOverrides: {
+                                                   0: { heightFactor: 0.7 }
+                                                   }
+                                                   }},
+                                                   {ids: ["wall-020"],
+                                                   qty: 1,
+                                                   adjustments: { lineOffset: -3.5, offsetDir: 90, offsetDist: -1.2,
+                                                   headingRotation: 0,
+                                                   windowOverrides: {
+                                                   0: { heightFactor: 0.75 }
+                                                   }
+                                                   }},
+                                                   {ids: ["wall-021"],
+                                                   qty: 1,
+                                                   adjustments: { lineOffset: 3.5, offsetDir: 90, offsetDist: 1.4,
+                                                   headingRotation: 180,
+                                                   windowOverrides: {
+                                                   0: { heightFactor: 0.75 }
+                                                   }
+                                                   }}
+                        ]
+                    },
+                    {
+                        model: "./3D_Models/wall_clock.glb",
+                        scale: 0.008,
+                        targets: [
+                        {
+                                                   ids: ["wall-005"],
+                                                   qty: 1,
+                                                   adjustments: { offsetDir: 90, offsetDist: 0.1,
+                                                   headingRotation: 180,
+                                                   windowOverrides: {
+                                                   0: { heightFactor: 0.9 }
+                                                   }
+                                                   }}
+                        ]
+                    }
+                ];
+
+                const attachComponentToWall = (wallId, modelPath, quantity, scaleFactor, heightFactor = 0.6, adjustments = {}) => {
+                    const wall = getGraphicById(graphicsLayer, wallId);
+                    if (!wall) return;
+
+                    const line = wall.attributes.line;
+                    const baseZ = wall.attributes.baseZ;
+                    const height = wall.attributes.height;
+                    const orientation = getLineBearing(line[0], line[1]);
+
+
+//                    const offsetDir = adjustments.offsetDir !== undefined ? adjustments.offsetDir : 90;
+//                    const offsetDist = adjustments.offsetDist !== undefined ? adjustments.offsetDist : 0.1;
+
+
+                    for (let i = 0; i < quantity; i++) {
+
+                    const windowOverride = (adjustments.windowOverrides && adjustments.windowOverrides[i]) || {};
+
+                    const finalOffsetDir = windowOverride.offsetDir !== undefined ? windowOverride.offsetDir : (adjustments.offsetDir !== undefined ? adjustments.offsetDir : 90);
+                    const finalOffsetDist = windowOverride.offsetDist !== undefined ? windowOverride.offsetDist : (adjustments.offsetDist !== undefined ? adjustments.offsetDist : 0.1);
+                    const finalHeightFact = windowOverride.heightFactor !== undefined ? windowOverride.heightFactor : heightFactor;
+                    const finalHeadingRot = windowOverride.headingRotation !== undefined ? windowOverride.headingRotation : (adjustments.headingRotation !== undefined ? adjustments.headingRotation : 0);
+                    const finalLineOffset = windowOverride.lineOffset !== undefined ? windowOverride.lineOffset : (adjustments.lineOffset !== undefined ? adjustments.lineOffset : 0);
+
+
+                    const fraction = (i + 1) / (quantity + 1);
+                    const dist = (distanceBetweenCoords(line[0], line[1]) * fraction) + finalLineOffset;
+
+                        let pos = findNewPoint(line[0], orientation, dist);
+                        // Đẩy nhẹ ra khỏi mặt tường (0.1m) để không bị z-fighting
+                        pos = findNewPoint(pos, orientation + finalOffsetDir, finalOffsetDist);
+
+                        const point = new Point({
+                            x: pos[0],
+                            y: pos[1],
+                            z: baseZ + (height * finalHeightFact)
+                        });
+
+                        Mesh.createFromGLTF(point, modelPath)
+                            .then(function (geometry) {
+                                geometry.scale(scaleFactor, { origin: point });
+                                geometry.rotate(0, 0, orientation + finalHeadingRot);
+
+                                const graphic = new Graphic({
+                                    geometry,
+                                    symbol: {
+                                        type: "mesh-3d",
+                                        symbolLayers: [{ type: "fill" }]
+                                    }
+                                });
+                                graphicsLayer.add(graphic);
+                            })
+                            .catch(console.error);
+                    }
+                };
+
+                componentsToAttach.forEach(comp => {
+                    let hFact = 0.6;
+                    // Tinh chỉnh độ cao cho Rose Window và Đồng hồ để nằm đúng vị trí kiến trúc
+                    if (comp.model.includes("roseWindow")) hFact = 0.75;
+                    if (comp.model.includes("wall_clock")) hFact = 0.88;
+
+                    comp.targets.forEach(target => {
+                        target.ids.forEach(id => {
+                            attachComponentToWall(id, comp.model, target.qty, comp.scale, hFact, target.adjustments);
+                        });
+                    });
+                });
+
+//// --- TEST BLOCK: Debugging GLB Models ---
+//                const testPoint = new Point({
+//                    x: 106.6993, // Close to the Cathedral front
+//                    y: 10.7795,
+//                    z: 20        // Floating 20m in the air so it's visible
+//                });
+//
+//                // --- TEST BLOCK: Debugging GLB Models with Scaling ---
+//                                const testPointBase = { x: 106.6993, y: 10.7795, z: 20 };
+//
+//                                // Test smallRoundWindow - testing with a large scale of 10
+//                                Mesh.createFromGLTF(new Point({ ...testPointBase, x: 106.6993 }), "./3D_Models/smallRoundWindow.glb")
+//                                    .then(geom => {
+//                                        geom.scale(0.5, { origin: geom.extent.center }); // Thử scale lớn gấp 10 lần
+//                                        // geom.rotate(90, 0, 0); // Bỏ comment nếu nó đang nằm bẹp dưới đất
+//                                        graphicsLayer.add(new Graphic({
+//                                            geometry: geom,
+//                                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", material: { color: "red" } }] }
+//                                        }));
+//                                        console.log("Small Window (Red) loaded with scale 10");
+//                                    }).catch(e => console.error("Small Window Error:", e));
+//
+//                                // Test roseWindow - testing with a huge scale of 50
+//                                Mesh.createFromGLTF(new Point({ ...testPointBase, x: 106.6995 }), "./3D_Models/roseWindow.glb")
+//                                    .then(geom => {
+//                                        geom.scale(0.1, { origin: geom.extent.center }); // Thử scale cực lớn
+//                                        graphicsLayer.add(new Graphic({
+//                                            geometry: geom,
+//                                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill", material: { color: "blue" } }] }
+//                                        }));
+//                                        console.log("Rose Window (Blue) loaded with scale 50");
+//                                    }).catch(e => console.error("Rose Window Error:", e));
+//
+//                                // Test clock - standard scale for comparison
+//                                Mesh.createFromGLTF(new Point({ ...testPointBase, x: 106.6997 }), "./3D_Models/wall_clock.glb")
+//                                    .then(geom => {
+//                                        geom.scale(0.005, { origin: geom.extent.center });
+//                                        graphicsLayer.add(new Graphic({
+//                                            geometry: geom,
+//                                            symbol: { type: "mesh-3d", symbolLayers: [{ type: "fill" }] }
+//                                        }));
+//                                        console.log("Clock loaded with scale 1");
+//                                    }).catch(e => console.error("Clock Error:", e))
+
             // Vẽ trụ tròn đỡ tượng
             const pedestal = new Graphic({
                 geometry: {
