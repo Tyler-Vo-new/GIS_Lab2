@@ -77,28 +77,28 @@ require([
      * @returns {Array<Graphic>} - Array of window graphics
      */
     function createSixWindowSet(wallPolygon, windowWidth, rectHeight, baseZ, wallId) {
-        console.log(`createSixWindowSet called for ${wallId}`);
+        // console.log(`createSixWindowSet called for ${wallId}`);
         
         // Sử dụng createWindowTriplet 2 lần để tạo 6 cửa
         const wallLength = window.getWallLength(wallPolygon);
         const tripletWidth = windowWidth * 3 + 0.3 * 2; // 3 cửa + 2 khoảng cách
         const gap = 0.5; // Khoảng cách giữa 2 bộ triplet
         
-        console.log(`Wall length: ${wallLength}m, Triplet width: ${tripletWidth}m`);
+        // console.log(`Wall length: ${wallLength}m, Triplet width: ${tripletWidth}m`);
         
         // Tính vị trí 2 bộ triplet
         const centerX = wallLength / 2;
         const leftTripletCenter = centerX - tripletWidth / 2 - gap / 2;
         const rightTripletCenter = centerX + tripletWidth / 2 + gap / 2;
         
-        console.log(`Left triplet center: ${leftTripletCenter}m, Right triplet center: ${rightTripletCenter}m`);
+        // console.log(`Left triplet center: ${leftTripletCenter}m, Right triplet center: ${rightTripletCenter}m`);
         
         // Tạo 2 bộ triplet (tổng 6 cửa)
         const leftTriplet = window.createWindowTriplet(wallPolygon, leftTripletCenter, windowWidth, rectHeight, baseZ, wallId);
         const rightTriplet = window.createWindowTriplet(wallPolygon, rightTripletCenter, windowWidth, rectHeight, baseZ, wallId);
         
         const graphics = [...leftTriplet, ...rightTriplet];
-        console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
+        // console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
         
         return graphics;
     }
@@ -113,9 +113,9 @@ require([
      * @returns {Array<Graphic>} - Array of door graphics
      */
     function createMainDoorPair(wallPolygon, doorWidth, doorHeight, baseZ, wallId) {
-        console.log(`createMainDoorPair called for ${wallId}`);
+        // console.log(`createMainDoorPair called for ${wallId}`);
         const wallLength = getWallLength(wallPolygon);
-        console.log(`Wall length: ${wallLength}m, Door height: ${doorHeight}m`);
+        // console.log(`Wall length: ${wallLength}m, Door height: ${doorHeight}m`);
         
         // Tính vị trí trung tâm tường
         const centerX = wallLength / 2;
@@ -123,7 +123,7 @@ require([
         // Tính chiều cao phần chữ nhật (65% tổng chiều cao)
         const rectHeight = doorHeight * 0.65;
         
-        console.log(`Center position: ${centerX}m, rectHeight: ${rectHeight}m`);
+        // console.log(`Center position: ${centerX}m, rectHeight: ${rectHeight}m`);
         
         // Sử dụng createWindowPair từ cuaSoThapChuong.js
         // Hàm này đã có sẵn logic vẽ khung và vòm cung đúng
@@ -136,7 +136,7 @@ require([
             wallId
         );
         
-        console.log(`Total graphics created for ${wallId}: ${doorGraphics.length}`);
+        // console.log(`Total graphics created for ${wallId}: ${doorGraphics.length}`);
         return doorGraphics;
     }
 
@@ -146,9 +146,9 @@ require([
      * @param {Object} walls - Object chứa các tường cần thêm cửa
      */
     function addNaveMainDoors(graphicsLayer, walls) {
-        console.log("=== addNaveMainDoors START ===");
-        console.log("addNaveMainDoors called with walls:", walls);
-        console.log("graphicsLayer:", graphicsLayer);
+        // console.log("=== addNaveMainDoors START ===");
+        // console.log("addNaveMainDoors called with walls:", walls);
+        // console.log("graphicsLayer:", graphicsLayer);
         
         const doorWidth = 1.8 * 2.5; // Chiều rộng mỗi cửa (gấp 2.5 lần)
         const wallBaseZ = 9;
@@ -158,12 +158,12 @@ require([
         const doorHeight = (wallHeight / 3) * 1.15;
         const doorBaseZ = wallBaseZ; // Chân cửa sát đất
         
-        console.log("Main door parameters:", { doorWidth, doorHeight, doorBaseZ });
+        // console.log("Main door parameters:", { doorWidth, doorHeight, doorBaseZ });
         
         // === TƯỜNG wall-020 ===
-        console.log("Checking wall-020:", walls.wall020 ? "Found" : "Not found");
+        // console.log("Checking wall-020:", walls.wall020 ? "Found" : "Not found");
         if (walls.wall020) {
-            console.log("Creating main door pair for wall-020");
+            // console.log("Creating main door pair for wall-020");
             try {
                 const graphics020 = createMainDoorPair(
                     walls.wall020,
@@ -172,19 +172,19 @@ require([
                     doorBaseZ,
                     "wall-020"
                 );
-                console.log(`Created ${graphics020.length} graphics for wall-020`);
+                // console.log(`Created ${graphics020.length} graphics for wall-020`);
                 graphics020.forEach(g => graphicsLayer.add(g));
-                console.log("Added graphics to layer for wall-020");
+                // console.log("Added graphics to layer for wall-020");
                 
                 // Thêm cửa sổ tầng giữa (giống wall-029)
-                console.log("Creating middle level windows for wall-020");
+                // console.log("Creating middle level windows for wall-020");
                 const middleWindowWidth = 1.2; // Giống wall-029
                 const middleRectHeight = 2.925; // Giống wall-029
                 const middleBaseZ = 22; // Tầng giữa
                 const middleGraphics020 = createSixWindowSet(walls.wall020, middleWindowWidth, middleRectHeight, middleBaseZ, "wall-020");
-                console.log(`Created ${middleGraphics020.length} middle level graphics for wall-020`);
+                // console.log(`Created ${middleGraphics020.length} middle level graphics for wall-020`);
                 middleGraphics020.forEach(g => graphicsLayer.add(g));
-                console.log("Added middle level graphics to layer for wall-020");
+                // console.log("Added middle level graphics to layer for wall-020");
             } catch (error) {
                 console.error("Error creating doors for wall-020:", error);
             }
@@ -193,9 +193,9 @@ require([
         }
         
         // === TƯỜNG wall-021 ===
-        console.log("Checking wall-021:", walls.wall021 ? "Found" : "Not found");
+        // console.log("Checking wall-021:", walls.wall021 ? "Found" : "Not found");
         if (walls.wall021) {
-            console.log("Creating main door pair for wall-021");
+            // console.log("Creating main door pair for wall-021");
             try {
                 const graphics021 = createMainDoorPair(
                     walls.wall021,
@@ -204,24 +204,24 @@ require([
                     doorBaseZ,
                     "wall-021"
                 );
-                console.log(`Created ${graphics021.length} graphics for wall-021`);
+                // console.log(`Created ${graphics021.length} graphics for wall-021`);
                 graphics021.forEach(g => graphicsLayer.add(g));
-                console.log("Added graphics to layer for wall-021");
+                // console.log("Added graphics to layer for wall-021");
                 
                 // Thêm cửa sổ tầng giữa (giống wall-029)
-                console.log("Creating middle level windows for wall-021");
+                // console.log("Creating middle level windows for wall-021");
                 const middleWindowWidth = 1.2; // Giống wall-029
                 const middleRectHeight = 2.925; // Giống wall-029
                 const middleBaseZ = 22; // Tầng giữa
                 const middleGraphics021 = createSixWindowSet(walls.wall021, middleWindowWidth, middleRectHeight, middleBaseZ, "wall-021");
-                console.log(`Created ${middleGraphics021.length} middle level graphics for wall-021`);
+                // console.log(`Created ${middleGraphics021.length} middle level graphics for wall-021`);
                 middleGraphics021.forEach(g => graphicsLayer.add(g));
-                console.log("Added middle level graphics to layer for wall-021");
+                // console.log("Added middle level graphics to layer for wall-021");
             } catch (error) {
                 console.error("Error creating doors for wall-021:", error);
             }
-        } else {
-            console.log("wall-021 not found");
+        // } else {
+            // console.log("wall-021 not found");
         }
         
         console.log("=== addNaveMainDoors END ===");

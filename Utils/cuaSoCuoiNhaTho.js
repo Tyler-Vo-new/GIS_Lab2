@@ -26,29 +26,29 @@
      * @returns {Array<Graphic>} - Array of window graphics
      */
     function createApseTripletSeries(wallPolygon, windowWidth, rectHeight, baseZ, wallId, fixedPositions) {
-        console.log(`createApseTripletSeries called for ${wallId}`);
+        // console.log(`createApseTripletSeries called for ${wallId}`);
         const graphics = [];
         const wallLength = getWallLength(wallPolygon);
-        console.log(`Wall length: ${wallLength}m`);
+        // console.log(`Wall length: ${wallLength}m`);
         
         const tripletCount = 2; // 2 bộ 3 cửa
         const gap = 0.3; // Khoảng cách giữa các cửa trong 1 bộ (phải khớp với cuaSoThapChuong.js)
         const tripletWidth = windowWidth * 3 + gap * 2; // Tổng chiều rộng 1 bộ 3 cửa
         
-        console.log(`Triplet width: ${tripletWidth}m`);
+        // console.log(`Triplet width: ${tripletWidth}m`);
         
         let positions;
         if (fixedPositions && fixedPositions.length === tripletCount) {
             // Sử dụng vị trí cố định từ tham số
             positions = fixedPositions;
-            console.log(`Using fixed positions: ${positions}`);
+            // console.log(`Using fixed positions: ${positions}`);
         } else {
             // Tính khoảng cách giữa các bộ để giãn cách đều
             // Công thức: (wallLength - tripletWidth * tripletCount) / (tripletCount + 1)
             // Chia thành: [lề trái][bộ 1][khoảng giữa][bộ 2][lề phải]
             const availableSpace = wallLength - (tripletWidth * tripletCount);
             const spacing = availableSpace / (tripletCount + 1);
-            console.log(`Available space: ${availableSpace}m, Spacing: ${spacing}m`);
+            // console.log(`Available space: ${availableSpace}m, Spacing: ${spacing}m`);
             
             positions = [];
             for (let i = 1; i <= tripletCount; i++) {
@@ -62,7 +62,7 @@
         // Tạo từng bộ 3 cửa tại các vị trí đã tính
         for (let i = 0; i < positions.length; i++) {
             const position = positions[i];
-            console.log(`Creating triplet ${i+1} at position ${position}m (center), range: ${position - tripletWidth/2}m to ${position + tripletWidth/2}m`);
+            // console.log(`Creating triplet ${i+1} at position ${position}m (center), range: ${position - tripletWidth/2}m to ${position + tripletWidth/2}m`);
             
             // Sử dụng createWindowTriplet từ cuaSoThapChuong.js
             const tripletGraphics = createWindowTriplet(
@@ -74,11 +74,11 @@
                 wallId
             );
             
-            console.log(`Triplet ${i+1} created ${tripletGraphics.length} graphics`);
+            // console.log(`Triplet ${i+1} created ${tripletGraphics.length} graphics`);
             graphics.push(...tripletGraphics);
         }
         
-        console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
+        // console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
         return graphics;
     }
 
@@ -92,15 +92,15 @@
      * @returns {Array<Graphic>} - Array of window graphics
      */
     function createSingleCenteredWindow(wallPolygon, windowWidth, rectHeight, baseZ, wallId) {
-        console.log(`createSingleCenteredWindow called for ${wallId}`);
-        console.log('Available window functions:', {
-            getWallLength: typeof window.getWallLength,
-            getPolygonOrientation: typeof window.getPolygonOrientation,
-            findNewPoint: typeof window.findNewPoint,
-            createBox: typeof window.createBox,
-            createFlatPolygonMesh: typeof window.createFlatPolygonMesh,
-            createMergedArchFrame: typeof window.createMergedArchFrame
-        });
+        // console.log(`createSingleCenteredWindow called for ${wallId}`);
+        // console.log('Available window functions:', {
+        //     getWallLength: typeof window.getWallLength,
+        //     getPolygonOrientation: typeof window.getPolygonOrientation,
+        //     findNewPoint: typeof window.findNewPoint,
+        //     createBox: typeof window.createBox,
+        //     createFlatPolygonMesh: typeof window.createFlatPolygonMesh,
+        //     createMergedArchFrame: typeof window.createMergedArchFrame
+        // });
         
         if (typeof window.getWallLength !== 'function') {
             console.error('window.getWallLength is not available!');
@@ -111,7 +111,7 @@
         const wallLength = window.getWallLength(wallPolygon);
         const centerX = wallLength / 2;
         
-        console.log(`Wall length: ${wallLength}m, Center position: ${centerX}m`);
+        // console.log(`Wall length: ${wallLength}m, Center position: ${centerX}m`);
         
         // Lấy orientation và frameDepth
         const orientation = window.getPolygonOrientation(wallPolygon);
@@ -154,7 +154,7 @@
         // Tính vị trí cửa ở giữa tường
         const windowStart = centerX - windowWidth / 2;
         
-        console.log(`Window starts at ${windowStart}m, width ${windowWidth}m, frameDepth: ${frameDepth}`);
+        // console.log(`Window starts at ${windowStart}m, width ${windowWidth}m, frameDepth: ${frameDepth}`);
         
         // Vẽ 1 cửa duy nhất
         const winLeft = window.findNewPoint(wallBL, orientation, windowStart);
@@ -235,7 +235,7 @@
         );
         graphics.push(archFrameGraphic);
         
-        console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
+        // console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
         return graphics;
     }
 
@@ -245,10 +245,10 @@
      * @param {Object} walls - Object chứa các tường cần thêm cửa
      */
     function addUpperApseWindows(graphicsLayer, walls) {
-        console.log("=== addUpperApseWindows START ===");
-        console.log("Received walls object:", walls);
-        console.log("Walls keys:", Object.keys(walls));
-        console.log("Walls with values:", Object.keys(walls).filter(k => walls[k] !== null));
+        // console.log("=== addUpperApseWindows START ===");
+        // console.log("Received walls object:", walls);
+        // console.log("Walls keys:", Object.keys(walls));
+        // console.log("Walls with values:", Object.keys(walls).filter(k => walls[k] !== null));
         
         const windowWidth = 1.0; // Chiều rộng cửa nhỏ hơn
         const windowHeight = 3.5; // Chiều cao tổng cửa sổ
@@ -260,10 +260,10 @@
             const wallKey = `wall${wallId}`;
             const fullWallId = `wall-${wallId}`;
             
-            console.log(`Checking ${fullWallId}:`, walls[wallKey] ? "Found" : "Not found");
+            // console.log(`Checking ${fullWallId}:`, walls[wallKey] ? "Found" : "Not found");
             
             if (walls[wallKey]) {
-                console.log(`Creating single centered window for ${fullWallId}`);
+                // console.log(`Creating single centered window for ${fullWallId}`);
                 try {
                     // Walls 054-058 có baseZ=26, kích thước giống wall-029
                     const upperWalls = ['054', '055', '056', '057', '058'];
@@ -290,7 +290,7 @@
                         windowBaseZ = wallBaseZ + windowOffsetFromBase + additionalOffset; // 9 + 0.27 + 3.8 = 13.07m
                     }
                     
-                    console.log(`Window baseZ for ${fullWallId}: ${windowBaseZ}m, width: ${winWidth}m, rectHeight: ${winRectHeight}m`);
+                    // console.log(`Window baseZ for ${fullWallId}: ${windowBaseZ}m, width: ${winWidth}m, rectHeight: ${winRectHeight}m`);
                     
                     const graphics = createSingleCenteredWindow(
                         walls[wallKey],
@@ -299,9 +299,9 @@
                         windowBaseZ,
                         fullWallId
                     );
-                    console.log(`Created ${graphics.length} graphics for ${fullWallId}`);
+                    // console.log(`Created ${graphics.length} graphics for ${fullWallId}`);
                     graphics.forEach(g => graphicsLayer.add(g));
-                    console.log(`Added graphics to layer for ${fullWallId}`);
+                    // console.log(`Added graphics to layer for ${fullWallId}`);
                 } catch (error) {
                     console.error(`Error creating window for ${fullWallId}:`, error);
                 }
@@ -321,28 +321,28 @@
      * @returns {Array<Graphic>} - Array of window graphics
      */
     function createApsePairSeries(wallPolygon, windowWidth, rectHeight, baseZ, wallId) {
-        console.log(`createApsePairSeries called for ${wallId}`);
+        // console.log(`createApsePairSeries called for ${wallId}`);
         const graphics = [];
         const wallLength = getWallLength(wallPolygon);
-        console.log(`Wall length: ${wallLength}m`);
+        // console.log(`Wall length: ${wallLength}m`);
         
         const pairCount = 2; // 2 bộ cửa
         const gap = 0.3; // Khoảng cách giữa 2 cửa trong 1 bộ
         const pairWidth = windowWidth * 2 + gap; // Tổng chiều rộng 1 bộ 2 cửa
         
-        console.log(`Pair width: ${pairWidth}m`);
+        // console.log(`Pair width: ${pairWidth}m`);
         
         // Tính khoảng cách giữa các bộ để giãn cách rộng hơn
         // Công thức: (wallLength - pairWidth * pairCount) / (pairCount + 1)
         const availableSpace = wallLength - (pairWidth * pairCount);
         const spacing = availableSpace / (pairCount + 1);
-        console.log(`Available space: ${availableSpace}m, Spacing: ${spacing}m`);
+        // console.log(`Available space: ${availableSpace}m, Spacing: ${spacing}m`);
         
         // Tạo từng bộ 2 cửa tại các vị trí đã tính
         for (let i = 1; i <= pairCount; i++) {
             // Position là tâm của bộ 2 cửa
             const position = spacing * i + pairWidth * (i - 0.5);
-            console.log(`Creating pair ${i} at position ${position}m (center), range: ${position - pairWidth/2}m to ${position + pairWidth/2}m`);
+            // console.log(`Creating pair ${i} at position ${position}m (center), range: ${position - pairWidth/2}m to ${position + pairWidth/2}m`);
             
             // Sử dụng createWindowPair từ cuaSoThapChuong.js
             const pairGraphics = createWindowPair(
@@ -354,11 +354,11 @@
                 wallId
             );
             
-            console.log(`Pair ${i} created ${pairGraphics.length} graphics`);
+            // console.log(`Pair ${i} created ${pairGraphics.length} graphics`);
             graphics.push(...pairGraphics);
         }
         
-        console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
+        // console.log(`Total graphics created for ${wallId}: ${graphics.length}`);
         return graphics;
     }
 
@@ -368,7 +368,7 @@
      * @param {Object} walls - Object chứa các tường cần thêm cửa sổ
      */
     function addApseWindows(graphicsLayer, walls) {
-        console.log("addApseWindows called with walls:", walls);
+        // console.log("addApseWindows called with walls:", walls);
         
         // Thông số cửa sổ giống wall-016/017
         const windowWidth = 1.2;
@@ -380,7 +380,7 @@
         const rectHeight = totalWindowsHeight * 0.65;
         const windowsBaseZ = wallBaseZ + (wallHeight / 2) - (totalWindowsHeight / 2);
         
-        console.log("Apse window parameters:", { windowWidth, rectHeight, windowsBaseZ });
+        // console.log("Apse window parameters:", { windowWidth, rectHeight, windowsBaseZ });
         
         // Tính positions chuẩn dựa trên wall-018 và wall-019
         let standardPositions018 = null;
@@ -399,7 +399,7 @@
             for (let i = 1; i <= tripletCount; i++) {
                 standardPositions018.push(spacing * i + tripletWidth * (i - 0.5));
             }
-            console.log(`Standard positions from wall-018 (length ${wall018Length}m): ${standardPositions018}`);
+            // console.log(`Standard positions from wall-018 (length ${wall018Length}m): ${standardPositions018}`);
         }
         
         // Tính positions cho wall-019 (làm chuẩn nếu cần)
@@ -411,12 +411,12 @@
             for (let i = 1; i <= tripletCount; i++) {
                 standardPositions019.push(spacing * i + tripletWidth * (i - 0.5));
             }
-            console.log(`Standard positions from wall-019 (length ${wall019Length}m): ${standardPositions019}`);
+            // console.log(`Standard positions from wall-019 (length ${wall019Length}m): ${standardPositions019}`);
         }
         
         // === TƯỜNG BÊN TRÁI (wall-029) - cùng hướng wall-016 ===
         if (walls.wall029) {
-            console.log("Creating triplet windows for wall-029");
+            // console.log("Creating triplet windows for wall-029");
             const graphics29 = createApseTripletSeries(
                 walls.wall029,
                 windowWidth,
@@ -424,7 +424,7 @@
                 windowsBaseZ,
                 "wall-029"
             );
-            console.log(`Created ${graphics29.length} graphics for wall-029`);
+            // console.log(`Created ${graphics29.length} graphics for wall-029`);
             graphics29.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-029 not found");
@@ -432,7 +432,7 @@
         
         // === TƯỜNG BÊN PHẢI (wall-028) - cùng hướng wall-017 ===
         if (walls.wall028) {
-            console.log("Creating triplet windows for wall-028");
+            // console.log("Creating triplet windows for wall-028");
             const graphics28 = createApseTripletSeries(
                 walls.wall028,
                 windowWidth,
@@ -440,7 +440,7 @@
                 windowsBaseZ,
                 "wall-028"
             );
-            console.log(`Created ${graphics28.length} graphics for wall-028`);
+            // console.log(`Created ${graphics28.length} graphics for wall-028`);
             graphics28.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-028 not found");
@@ -448,7 +448,7 @@
         
         // === TƯỜNG 018 - làm chuẩn cho 022, 023 ===
         if (walls.wall018) {
-            console.log("Creating triplet windows for wall-018");
+            // console.log("Creating triplet windows for wall-018");
             const graphics18 = createApseTripletSeries(
                 walls.wall018,
                 windowWidth,
@@ -456,7 +456,7 @@
                 windowsBaseZ,
                 "wall-018"
             );
-            console.log(`Created ${graphics18.length} graphics for wall-018`);
+            // console.log(`Created ${graphics18.length} graphics for wall-018`);
             graphics18.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-018 not found");
@@ -464,7 +464,7 @@
         
         // === TƯỜNG 019 - làm chuẩn nếu cần ===
         if (walls.wall019) {
-            console.log("Creating triplet windows for wall-019");
+            // console.log("Creating triplet windows for wall-019");
             const graphics19 = createApseTripletSeries(
                 walls.wall019,
                 windowWidth,
@@ -472,7 +472,7 @@
                 windowsBaseZ,
                 "wall-019"
             );
-            console.log(`Created ${graphics19.length} graphics for wall-019`);
+            // console.log(`Created ${graphics19.length} graphics for wall-019`);
             graphics19.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-019 not found");
@@ -480,7 +480,7 @@
         
         // === TƯỜNG 022 - dùng positions của wall-018 ===
         if (walls.wall022 && standardPositions018) {
-            console.log(`Creating triplet windows for wall-022 using wall-018 positions: ${standardPositions018}`);
+            // console.log(`Creating triplet windows for wall-022 using wall-018 positions: ${standardPositions018}`);
             const graphics22 = createApseTripletSeries(
                 walls.wall022,
                 windowWidth,
@@ -489,7 +489,7 @@
                 "wall-022",
                 standardPositions018  // Sử dụng positions chuẩn từ wall-018
             );
-            console.log(`Created ${graphics22.length} graphics for wall-022`);
+            // console.log(`Created ${graphics22.length} graphics for wall-022`);
             graphics22.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-022 not found or no standard positions available");
@@ -497,7 +497,7 @@
         
         // === TƯỜNG 023 - dùng positions của wall-018 ===
         if (walls.wall023 && standardPositions018) {
-            console.log(`Creating triplet windows for wall-023 using wall-018 positions: ${standardPositions018}`);
+            // console.log(`Creating triplet windows for wall-023 using wall-018 positions: ${standardPositions018}`);
             const graphics23 = createApseTripletSeries(
                 walls.wall023,
                 windowWidth,
@@ -506,14 +506,14 @@
                 "wall-023",
                 standardPositions018  // Sử dụng positions chuẩn từ wall-018
             );
-            console.log(`Created ${graphics23.length} graphics for wall-023`);
+            // console.log(`Created ${graphics23.length} graphics for wall-023`);
             graphics23.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-023 not found or no standard positions available");
         }
         
         // === TƯỜNG 024 và 025 - 2 bộ cửa cặp, vị trí cao hơn ===
-        console.log("Checking wall-025:", walls.wall025 ? "Found" : "Not found");
+        // console.log("Checking wall-025:", walls.wall025 ? "Found" : "Not found");
         if (walls.wall025) {
             console.log("Creating pair windows for wall-025");
             // wall-025: baseZ=9, height=15
@@ -532,14 +532,14 @@
                 wall025WindowsBaseZ,
                 "wall-025"
             );
-            console.log(`Created ${graphics025.length} graphics for wall-025`);
+            // console.log(`Created ${graphics025.length} graphics for wall-025`);
             graphics025.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-025 not found");
         }
         
         if (walls.wall024) {
-            console.log("Creating pair windows for wall-024");
+            // console.log("Creating pair windows for wall-024");
             // wall-024: baseZ=9, height=15
             // Đặt cửa cao hơn, cách chân tường nhiều hơn
             const wall024BaseZ = 9;
@@ -556,7 +556,7 @@
                 wall024WindowsBaseZ,
                 "wall-024"
             );
-            console.log(`Created ${graphics024.length} graphics for wall-024`);
+            // console.log(`Created ${graphics024.length} graphics for wall-024`);
             graphics024.forEach(g => graphicsLayer.add(g));
         } else {
             console.log("wall-024 not found");
